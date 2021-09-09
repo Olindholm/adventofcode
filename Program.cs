@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
@@ -16,6 +16,7 @@ namespace csharp {
             List<AdventOfCodePuzzle> adventOfCode2019Puzzles = new List<AdventOfCodePuzzle>();
             adventOfCode2019Puzzles.Add(null);
             adventOfCode2019Puzzles.Add(new ProgramAlarm1202());
+            adventOfCode2019Puzzles.Add(new SunnyWithAChanceOfAsteroids());
             adventOfCodePuzzles.Add(adventOfCode2019Puzzles);
 
             // Run
