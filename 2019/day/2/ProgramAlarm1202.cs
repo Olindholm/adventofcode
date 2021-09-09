@@ -12,7 +12,8 @@ namespace AdventOfCode {
             program[2] = 2;
 
             IntcodeComputer computer = InitComputer();
-            computer.Run(program);
+            computer.LoadProgram(program);
+            computer.Run();
 
             Console.WriteLine(program[0]);
         }

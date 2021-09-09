@@ -5,21 +5,70 @@ using System.Collections.Generic;
 namespace AdventOfCode {
     class IntcodeComputer {
 
-        private Dictionary<int, IntcodeInstruction> instructions;
+        private Dictionary<int, IntcodeInstruction> instructions = new Dictionary<int, IntcodeInstruction>();
+        private int[] Program;
+        private int InstructionPointer;
+        private bool Running = false;
+        private Queue<int> Input = new Queue<int>();
 
-        public IntcodeComputer() {
-            this.instructions = new Dictionary<int, IntcodeInstruction>();
+        public void LoadProgram(int[] program) {
+            LoadProgram(program, 0);
+        }
+
+        public void LoadProgram(int[] program, int instructionPointer) {
+            this.Program = (int[]) program.Clone();
+            this.InstructionPointer = instructionPointer;
+        }
+
+        public int GetProgramValue(int index) {
+            return this.Program[index];
+        }
+
+        public void SetProgramValue(int index, int value) {
+            this.Program[index] = value;
+        }
+
+        public int GetProgramIntcode() {
+            return GetProgramValue(GetInstructionPointer());
+        }
+
+        public int GetInstructionPointer() {
+            return this.InstructionPointer;
+        }
+
+        public void SetInstructionPointer(int instructionPointer) {
+            this.InstructionPointer = instructionPointer;
+        }
+
+        public void IncrementInstructionPointer(int increment) {
+            SetInstructionPointer(GetInstructionPointer() + increment);
         }
 
         public void AddInstruction(IntcodeInstruction instruction) {
             this.instructions[instruction.GetOpcode()] = instruction;
         }
 
-        public void Run(int[] program) {
+        public int GetInput() {
+            if (Input.Count > 0) return Input.Dequeue();
 
-            int i = 0;
-            while (true) {
-                int intcode = program[i];
+            // Request from terminal
+            throw new Exception("This is not impolemnented");
+        }
+
+        public void Halt() {
+            this.Running = false;
+        }
+
+        public void Run() {
+            Run(null);
+        }
+
+        public void Run(int[] input) {
+            if (input != null) foreach (int i in input) Input.Enqueue(i);
+
+            this.Running = true;
+            while (this.Running) {
+                int intcode = GetProgramIntcode();
                 int[] intcodeDigits = Digits(intcode);
 
                 // Extract instruction
@@ -33,10 +82,10 @@ namespace AdventOfCode {
                 int[] parameterModes = new int[numberOfParameters];
 
                 for (int j = 0; j < numberOfParameters; j++) {
-                    int parameterIndex = i+1+j;
+                    int parameterIndex = this.InstructionPointer+1+j;
                     int parameterModeIndex = j+2;
 
-                    parameters[j] = program[parameterIndex];
+                    parameters[j] = GetProgramValue(parameterIndex);
                     parameterModes[j] = (parameterModeIndex < intcodeDigits.Length) ? intcodeDigits[parameterModeIndex] : 0;
                 }
 
@@ -46,10 +95,8 @@ namespace AdventOfCode {
                 //Console.WriteLine("");
 
                 // Execude instruction
-                bool nohalt = instruction.Execute(program, parameters, parameterModes);
-                i += 1 + numberOfParameters;
-
-                if (!nohalt) break;
+                IncrementInstructionPointer(1 + numberOfParameters);
+                instruction.Execute(this, parameters, parameterModes);
             }
 
         }

@@ -12,7 +12,7 @@ namespace AdventOfCode {
             this.NumberOfParameters = numberOfParameters;
         }
 
-        public abstract bool Execute(int[] program, int[] parameters, int[] parameterModes);
+        public abstract void Execute(IntcodeComputer computer, int[] parameters, int[] parameterModes);
 
         public int GetOpcode() {
             return this.Intcode;
@@ -22,13 +22,13 @@ namespace AdventOfCode {
             return this.NumberOfParameters;
         }
 
-        public static int GetValue(int parameterIndex, int[] program, int[] parameters, int[] parameterModes) {
+        public static int GetValue(int parameterIndex, IntcodeComputer computer, int[] parameters, int[] parameterModes) {
             int parameterMode = parameterModes[parameterIndex];
             int value;
 
             if (parameterMode == 0) { // Position Mode
                 int valueIndex = parameters[parameterIndex];
-                value = program[valueIndex];
+                value = computer.GetProgramValue(valueIndex);
             }
             else if (parameterMode == 1) { // immediate Mode
                 value = parameters[parameterIndex];
@@ -38,12 +38,12 @@ namespace AdventOfCode {
             return value;
         }
         
-        public static void SetValue(int parameterIndex, int[] program, int[] parameters, int[] parameterModes, int value) {
+        public static void SetValue(int parameterIndex, IntcodeComputer computer, int[] parameters, int[] parameterModes, int value) {
             int parameterMode = parameterModes[parameterIndex];
 
             if (parameterMode == 0) { // Position Mode
                 int valueIndex = parameters[parameterIndex];
-                program[valueIndex] = value;
+                computer.SetProgramValue(valueIndex, value);
             }
             else throw new Exception("Unsupported parameter mode: " + parameterMode); // Throw error
         }

@@ -7,22 +7,32 @@ namespace AdventOfCode {
         public SunnyWithAChanceOfAsteroids() : base(2019, 5) {}
 
         override public void Solve() {
+            // Load program
             int[] program = IntcodeComputer.ParseProgram(this.GetPuzzleInput());
 
-            IntcodeComputer computer = InitComputer();
-            computer.Run(program);
-            
-            Console.WriteLine(program[0]);
-        }
-        
-        public static IntcodeComputer InitComputer() {
+            // Init computer
             IntcodeComputer computer = new IntcodeComputer();
             computer.AddInstruction(new IntcodeAddition());
             computer.AddInstruction(new IntcodeMultiplication());
             computer.AddInstruction(new IntcodeHalt());
-            computer.AddInstruction(new IntcodeStoreInput());
+            computer.AddInstruction(new IntcodeInput());
             computer.AddInstruction(new IntcodePrintOutput());
-            return computer;
+
+            // Run program
+            computer.LoadProgram(program);
+            computer.Run(new int[] {1});
+
+            // Part Two
+            // Add additional instructions
+            computer.AddInstruction(new IntcodeJumpIfTrue());
+            computer.AddInstruction(new IntcodeJumpIfFalse());
+            computer.AddInstruction(new IntcodeLessThan());
+            computer.AddInstruction(new IntcodeEquals());
+
+            // Run program
+            computer.LoadProgram(program);
+            computer.Run(new int[] {5});
+
         }
     }
 }
