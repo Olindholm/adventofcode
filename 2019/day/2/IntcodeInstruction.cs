@@ -12,7 +12,11 @@ namespace AdventOfCode {
             this.NumberOfParameters = numberOfParameters;
         }
 
-        public abstract void Execute(IntcodeComputer computer, int[] parameters, int[] parameterModes);
+        //
+        // return whether or not successful
+        // Success means, the instruction pointer will be incrememented
+        //
+        public abstract bool Execute(IntcodeComputer computer, int[] parameters, int[] parameterModes);
 
         public int GetOpcode() {
             return this.Intcode;

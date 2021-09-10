@@ -9,7 +9,16 @@ namespace AdventOfCode {
         private int[] Program;
         private int InstructionPointer;
         private bool Running = false;
-        private Queue<int> Input = new Queue<int>();
+
+        // Exit codes
+        // 0 - Successful Halt
+        // 1 - Halted, waiting for input
+        private int ExitCode = 0;
+
+
+        // Input/output
+        private Queue<int> Inputs = new Queue<int>();
+        private Queue<int> Outputs = new Queue<int>();
 
         public void LoadProgram(int[] program) {
             LoadProgram(program, 0);
@@ -48,26 +57,66 @@ namespace AdventOfCode {
             this.instructions[instruction.GetOpcode()] = instruction;
         }
 
-        public int GetInput() {
-            if (Input.Count > 0) return Input.Dequeue();
-
-            // Request from terminal
-            throw new Exception("This is not impolemnented");
+        public void AddInputs(int[] inputs) {
+            if (inputs != null) foreach (int input in inputs) AddInput(input);
+        }
+        
+        public void AddInput(int input) {
+            Inputs.Enqueue(input);
         }
 
+        public int GetInput() {
+            if (Inputs.Count > 0) return Inputs.Dequeue();
+
+            // No Input?
+            // Halt and wait for Run again
+            Halt(1);
+
+            // Method must return something
+            // Anything really, this shouldn't be used
+            // Check whether the input is good, by checking
+            // if computer is still running/halted
+            return Int32.MinValue;
+        }
+        
+        public void AddOutput(int output) {
+            Outputs.Enqueue(output);
+        }
+
+        public int GetOutput() {
+            return Outputs.Dequeue();
+        }
+        
         public void Halt() {
+            Halt(0);
+        }
+
+        public void Halt(int exitCode) {
             this.Running = false;
+            this.ExitCode = exitCode;
+        }
+
+        public bool isFinished() {
+            return !isRunning() && this.ExitCode == 0;
+        }
+
+        public bool isRunning() {
+            return this.Running;
         }
 
         public void Run() {
             Run(null);
         }
 
-        public void Run(int[] input) {
-            if (input != null) foreach (int i in input) Input.Enqueue(i);
+        public void Run(int input) {
+            Run(new int[] { input });
+        }
+
+        public void Run(int[] inputs) {
+            AddInputs(inputs);
 
             this.Running = true;
-            while (this.Running) {
+            while (isRunning()) {
                 int intcode = GetProgramIntcode();
                 int[] intcodeDigits = Digits(intcode);
 
@@ -95,8 +144,8 @@ namespace AdventOfCode {
                 //Console.WriteLine("");
 
                 // Execude instruction
-                IncrementInstructionPointer(1 + numberOfParameters);
-                instruction.Execute(this, parameters, parameterModes);
+                bool success = instruction.Execute(this, parameters, parameterModes);
+                if (success) IncrementInstructionPointer(1 + numberOfParameters);
             }
 
         }
