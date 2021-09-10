@@ -26,6 +26,11 @@ namespace AdventOfCode {
             // Run BOOST in test mode
             computer.LoadProgram(program);
             computer.Run(1);
+
+            // Part Two
+            // Run BOOST in sensor boost mode
+            computer.LoadProgram(program);
+            computer.Run(2);
         }
     }
 }
