@@ -29,8 +29,20 @@ namespace AdventOfCode {
             return this.GetManhattanDistance(ORIGIN);
         }
 
+        public int GetDeltaX(Point2D p) {
+            return p.GetX() - this.GetX();
+        }
+        
+        public int GetDeltaY(Point2D p) {
+            return p.GetY() - this.GetY();
+        }
 
-        public override bool Equals(Object obj) {
+        public double GetAngle(Point2D p) {
+            return Math.Atan2(this.GetDeltaY(p), this.GetDeltaX(p));
+        }
+
+
+        override public bool Equals(Object obj) {
             if (obj == null) return false;
             if (!obj.GetType().IsInstanceOfType(this)) return false;
 
@@ -41,11 +53,11 @@ namespace AdventOfCode {
             return true;
         }
 
-        public override int GetHashCode() {
+        override public int GetHashCode() {
             return (this.GetX() << 2) ^ this.GetY();
         }
 
-        public override string ToString() {
+        override public string ToString() {
             return "Point2D(" + this.GetX() + ", " + this.GetY() + ")";
         }
     }
