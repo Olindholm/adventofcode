@@ -16,6 +16,7 @@ namespace csharp {
             List<AdventOfCodePuzzle> adventOfCode2019Puzzles = new List<AdventOfCodePuzzle>();
             adventOfCode2019Puzzles.Add(null);
             adventOfCode2019Puzzles.Add(new ProgramAlarm1202());
+            adventOfCode2019Puzzles.Add(new CrossedWires());
             adventOfCode2019Puzzles.Add(new SunnyWithAChanceOfAsteroids());
             adventOfCode2019Puzzles.Add(new AmplificationCircuit());
             adventOfCode2019Puzzles.Add(new SpaceImageFormat());
