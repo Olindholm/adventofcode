@@ -50,6 +50,30 @@ namespace AdventOfCode {
 
             int answer = waldoDigits[1] * waldoDigits[2];
             Console.WriteLine(answer);
+
+            // Part Two
+            int transparent = 2;
+            int[,] image = new int[width, height];
+            for (int x = 0; x < width; x++) for (int y = 0; y < height; y++) image[x, y] = transparent;
+            for (int x = 0; x < width; x++) for (int y = 0; y < height; y++) {
+                for (int layer = 0; layer < layers; layer++) {
+                    int color = imageLayers[layer, x, y];
+
+                    if (color != transparent) {
+                        image[x, y] = color;
+                        break;
+                    }
+                }
+            }
+            
+            string[] colorPallette = {" ", "█"};
+            for (int y = 0; y < height; y++) {
+                for (int x = 0; x < width; x++) {
+                    int color = image[x, y];
+                    Console.Write(colorPallette[color]);
+                }
+                Console.WriteLine("");
+            }
         }
     }
 }
