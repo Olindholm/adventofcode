@@ -6,8 +6,9 @@ namespace AdventOfCode {
     class IntcodeComputer {
 
         private Dictionary<int, IntcodeInstruction> instructions = new Dictionary<int, IntcodeInstruction>();
-        private int[] Program;
+        private List<long> Program;
         private int InstructionPointer;
+        private int RelativeBase;
         private bool Running = false;
 
         // Exit codes
@@ -17,27 +18,37 @@ namespace AdventOfCode {
 
 
         // Input/output
-        private Queue<int> Inputs = new Queue<int>();
-        private Queue<int> Outputs = new Queue<int>();
+        private Queue<long> Inputs = new Queue<long>();
+        private Queue<long> Outputs = new Queue<long>();
 
-        public void LoadProgram(int[] program) {
-            LoadProgram(program, 0);
+        public void LoadProgram(long[] program) {
+            LoadProgram(program, 0, 0);
         }
 
-        public void LoadProgram(int[] program, int instructionPointer) {
-            this.Program = (int[]) program.Clone();
+        public void LoadProgram(long[] program, int instructionPointer, int relativeBase) {
+            this.Program = new List<long>(program);
             this.InstructionPointer = instructionPointer;
+            this.RelativeBase = relativeBase;
         }
 
-        public int GetProgramValue(int index) {
-            return this.Program[index];
+        private void EnsureProgramIndexExist(int index) {
+            if (index < 0) throw new Exception("Negative indicies are not allowed!");
+
+            int missingSize = (1+index) - Program.Count;
+            if (missingSize > 0) Program.AddRange(new long[missingSize]);
         }
 
-        public void SetProgramValue(int index, int value) {
-            this.Program[index] = value;
+        public long GetProgramValue(int index) {
+            EnsureProgramIndexExist(index);
+            return Program[index];
         }
 
-        public int GetProgramIntcode() {
+        public void SetProgramValue(int index, long value) {
+            EnsureProgramIndexExist(index);
+            Program[index] = value;
+        }
+
+        public long GetProgramIntcode() {
             return GetProgramValue(GetInstructionPointer());
         }
 
@@ -53,19 +64,31 @@ namespace AdventOfCode {
             SetInstructionPointer(GetInstructionPointer() + increment);
         }
 
+        public int GetRelativeBase() {
+            return RelativeBase;
+        }
+
+        public void SetRelativeBase(int relativeBase) {
+            this.RelativeBase = relativeBase;
+        }
+        
+        public void IncrementRelativeBase(int increment) {
+            SetRelativeBase(GetRelativeBase() + increment);
+        }
+
         public void AddInstruction(IntcodeInstruction instruction) {
             this.instructions[instruction.GetOpcode()] = instruction;
         }
 
-        public void AddInputs(int[] inputs) {
-            if (inputs != null) foreach (int input in inputs) AddInput(input);
+        public void AddInputs(long[] inputs) {
+            if (inputs != null) foreach (long input in inputs) AddInput(input);
         }
         
-        public void AddInput(int input) {
+        public void AddInput(long input) {
             Inputs.Enqueue(input);
         }
 
-        public int GetInput() {
+        public long GetInput() {
             if (Inputs.Count > 0) return Inputs.Dequeue();
 
             // No Input?
@@ -76,14 +99,14 @@ namespace AdventOfCode {
             // Anything really, this shouldn't be used
             // Check whether the input is good, by checking
             // if computer is still running/halted
-            return Int32.MinValue;
+            return Int64.MinValue;
         }
         
-        public void AddOutput(int output) {
+        public void AddOutput(long output) {
             Outputs.Enqueue(output);
         }
 
-        public int GetOutput() {
+        public long GetOutput() {
             return Outputs.Dequeue();
         }
         
@@ -108,16 +131,16 @@ namespace AdventOfCode {
             Run(null);
         }
 
-        public void Run(int input) {
-            Run(new int[] { input });
+        public void Run(long input) {
+            Run(new long[] { input });
         }
 
-        public void Run(int[] inputs) {
+        public void Run(long[] inputs) {
             AddInputs(inputs);
 
             this.Running = true;
             while (isRunning()) {
-                int intcode = GetProgramIntcode();
+                long intcode = GetProgramIntcode();
                 int[] intcodeDigits = Digits(intcode);
 
                 // Extract instruction
@@ -127,7 +150,7 @@ namespace AdventOfCode {
 
                 // Extract parameters
                 int numberOfParameters = instruction.GetNumberOfParameters();
-                int[] parameters = new int[numberOfParameters];
+                long[] parameters = new long[numberOfParameters];
                 int[] parameterModes = new int[numberOfParameters];
 
                 for (int j = 0; j < numberOfParameters; j++) {
@@ -150,7 +173,7 @@ namespace AdventOfCode {
 
         }
 
-        public static int[] Digits(int x) {
+        public static int[] Digits(long x) {
             int numDigits = (int) Math.Log10(x)+1;
 
             int[] digits = new int[numDigits];
@@ -161,8 +184,8 @@ namespace AdventOfCode {
             return digits;
         }
         
-        public static int[] ParseProgram(string input) {
-            return input.Split(",").Select(i => Int32.Parse(i)).ToArray();
+        public static long[] ParseProgram(string input) {
+            return input.Split(",").Select(i => Int64.Parse(i)).ToArray();
         }
     }
 }

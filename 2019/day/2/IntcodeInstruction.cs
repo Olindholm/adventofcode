@@ -16,7 +16,7 @@ namespace AdventOfCode {
         // return whether or not successful
         // Success means, the instruction pointer will be incrememented
         //
-        public abstract bool Execute(IntcodeComputer computer, int[] parameters, int[] parameterModes);
+        public abstract bool Execute(IntcodeComputer computer, long[] parameters, int[] parameterModes);
 
         public int GetOpcode() {
             return this.Intcode;
@@ -26,28 +26,36 @@ namespace AdventOfCode {
             return this.NumberOfParameters;
         }
 
-        public static int GetValue(int parameterIndex, IntcodeComputer computer, int[] parameters, int[] parameterModes) {
+        public static long GetValue(int parameterIndex, IntcodeComputer computer, long[] parameters, int[] parameterModes) {
             int parameterMode = parameterModes[parameterIndex];
-            int value;
+            long value;
 
-            if (parameterMode == 0) { // Position Mode
-                int valueIndex = parameters[parameterIndex];
+            if (parameterMode == 0) { // Position mode
+                int valueIndex = (int) parameters[parameterIndex];
                 value = computer.GetProgramValue(valueIndex);
             }
-            else if (parameterMode == 1) { // immediate Mode
+            else if (parameterMode == 1) { // Immediate mode
                 value = parameters[parameterIndex];
+            }
+            else if (parameterMode == 2) { // Relative mode
+                int valueIndex = (int) parameters[parameterIndex];
+                value = computer.GetProgramValue(computer.GetRelativeBase() + valueIndex);
             }
             else throw new Exception("Unsupported parameter mode: " + parameterMode); // Throw error
 
             return value;
         }
         
-        public static void SetValue(int parameterIndex, IntcodeComputer computer, int[] parameters, int[] parameterModes, int value) {
+        public static void SetValue(int parameterIndex, IntcodeComputer computer, long[] parameters, int[] parameterModes, long value) {
             int parameterMode = parameterModes[parameterIndex];
 
             if (parameterMode == 0) { // Position Mode
-                int valueIndex = parameters[parameterIndex];
+                int valueIndex = (int) parameters[parameterIndex];
                 computer.SetProgramValue(valueIndex, value);
+            }
+            else if (parameterMode == 2) { // Relative mode
+                int valueIndex = (int) parameters[parameterIndex];
+                computer.SetProgramValue(computer.GetRelativeBase() + valueIndex, value);
             }
             else throw new Exception("Unsupported parameter mode: " + parameterMode); // Throw error
         }

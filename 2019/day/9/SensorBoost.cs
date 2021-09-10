@@ -3,8 +3,8 @@ using System.Linq;
 using System.Collections.Generic;
 
 namespace AdventOfCode {
-    class SunnyWithAChanceOfAsteroids : AdventOfCodePuzzle {
-        public SunnyWithAChanceOfAsteroids() : base(2019, 5) {}
+    class SensorBoost : AdventOfCodePuzzle {
+        public SensorBoost() : base(2019, 9) {}
 
         override public void Solve() {
             // Load program
@@ -17,22 +17,15 @@ namespace AdventOfCode {
             computer.AddInstruction(new IntcodeHalt());
             computer.AddInstruction(new IntcodeInput());
             computer.AddInstruction(new IntcodePrintOutput());
-
-            // Run program
-            computer.LoadProgram(program);
-            computer.Run(1);
-
-            // Part Two
-            // Add additional instructions
             computer.AddInstruction(new IntcodeJumpIfTrue());
             computer.AddInstruction(new IntcodeJumpIfFalse());
             computer.AddInstruction(new IntcodeLessThan());
             computer.AddInstruction(new IntcodeEquals());
+            computer.AddInstruction(new IntcodeAdjustRelativeBase());
 
-            // Run program
+            // Run BOOST in test mode
             computer.LoadProgram(program);
-            computer.Run(5);
-
+            computer.Run(1);
         }
     }
 }

@@ -8,7 +8,7 @@ namespace AdventOfCode {
 
         override public void Solve() {
             // Load program
-            int[] program = IntcodeComputer.ParseProgram(this.GetPuzzleInput());
+            long[] program = IntcodeComputer.ParseProgram(this.GetPuzzleInput());
 
             // Init amplifiers (computers)
             char[] amplifiers = {'A', 'B', 'C', 'D', 'E'};
@@ -38,16 +38,16 @@ namespace AdventOfCode {
             phaseSequences = generateCombinations(new List<int>(phaseSettings));
 
             // Iterate through
-            int maxThrusterSignal;
+            long maxThrusterSignal;
             maxThrusterSignal = phaseSequences.Select(phaseSequence => {
 
-                int output = 0;
+                long output = 0;
                 for (int i = 0; i < N; i++) {
                     IntcodeComputer computer = computers[i];
                     int phase = phaseSequence[i];
 
                     computer.LoadProgram(program);
-                    computer.Run(new int[] {phase, output});
+                    computer.Run(new long[] {phase, output});
                     
                     output = computer.GetOutput();
                 }
@@ -74,7 +74,7 @@ namespace AdventOfCode {
                 }
 
                 int n = 0;
-                int output = 0;
+                long output = 0;
                 while (true) {
                     IntcodeComputer computer = computers[n];
                     computer.Run(output);

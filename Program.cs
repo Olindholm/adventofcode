@@ -19,6 +19,7 @@ namespace csharp {
             adventOfCode2019Puzzles.Add(new SunnyWithAChanceOfAsteroids());
             adventOfCode2019Puzzles.Add(new AmplificationCircuit());
             adventOfCode2019Puzzles.Add(new SpaceImageFormat());
+            adventOfCode2019Puzzles.Add(new SensorBoost());
             adventOfCodePuzzles.Add(adventOfCode2019Puzzles);
 
             // Run
