@@ -26,6 +26,10 @@ namespace AdventOfCode {
             return this.NumberOfParameters;
         }
 
+        override public string ToString() {
+            return base.ToString().Substring(20);
+        }
+
         public static long GetValue(int parameterIndex, IntcodeComputer computer, long[] parameters, int[] parameterModes) {
             int parameterMode = parameterModes[parameterIndex];
             long value;

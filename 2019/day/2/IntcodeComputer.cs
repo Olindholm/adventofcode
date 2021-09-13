@@ -162,9 +162,10 @@ namespace AdventOfCode {
                 }
 
                 // Debug
-                //Console.Write("Intcode: " + intcode + ", Opcode: " + opcode + " (" + instruction + ")");
-                //for (int j = 0; j < numberOfParameters; j++) Console.Write(", Param " + j + ": " + parameters[j] + ", Mode: " + parameterModes[j]);
-                //Console.WriteLine("");
+                //string[] parameterModeNames = {"Absolute mode", "Immidiate mode", "Relative mode"};
+                //Console.WriteLine("Intcode: {0,5}, Opcode: {1,2} ({2})", intcode, opcode, instruction);
+                //for (int j = 0; j < numberOfParameters; j++)
+                //    Console.WriteLine("    - Param {0}: {1,6} (Mode: {2} ({3}))", j, parameters[j], parameterModes[j], parameterModeNames[parameterModes[j]]);
 
                 // Execude instruction
                 bool success = instruction.Execute(this, parameters, parameterModes);
