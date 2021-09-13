@@ -16,7 +16,7 @@ namespace AdventOfCode {
             computer.AddInstruction(new IntcodeMultiplication());
             computer.AddInstruction(new IntcodeHalt());
             computer.AddInstruction(new IntcodeInput());
-            computer.AddInstruction(new IntcodePrintOutput());
+            computer.AddInstruction(new IntcodeOutput());
             computer.AddInstruction(new IntcodeJumpIfTrue());
             computer.AddInstruction(new IntcodeJumpIfFalse());
             computer.AddInstruction(new IntcodeLessThan());
