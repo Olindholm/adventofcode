@@ -23,7 +23,7 @@ namespace AdventOfCode {
         }
 
         public int GetManhattanDistance(Point2D p) {
-            return Math.Abs(this.GetX() - p.GetX()) + Math.Abs(this.GetY() - p.GetY());
+            return Math.Abs(GetDeltaX(p)) + Math.Abs(GetDeltaY(p));
         }
         public int GetManhattanSize() {
             return this.GetManhattanDistance(ORIGIN);
@@ -37,7 +37,7 @@ namespace AdventOfCode {
             return p.GetY() - this.GetY();
         }
 
-        public double GetAngle(Point2D p) {
+        public virtual double GetAngle(Point2D p) {
             return Math.Atan2(this.GetDeltaY(p), this.GetDeltaX(p));
         }
 
