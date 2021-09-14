@@ -6,54 +6,67 @@ using System.Text.RegularExpressions;
 namespace AdventOfCode {
     class CelestialBody {
 
-        private Point3D Position, Velocity;
+        string Name;
+        Dictionary<int, CelestialDimension> Dimensions = new Dictionary<int, CelestialDimension>();
 
-        public CelestialBody(int x, int y, int z) {
-            this.Position = new Point3D(x, y, z);
-            this.Velocity = new Point3D(0, 0, 0);
+        public CelestialBody(string name) {
+            this.Name = name;
         }
 
-        public Point3D GetPosition() {
-            return this.Position;
+        public string GetName() {
+            return this.Name;
         }
 
-        public void AddPosition(Point3D v) {
-            this.Position = GetPosition().Add(v);
+        public int GetNumberOfDimensions() {
+            return Dimensions.Count;
         }
 
-        public Point3D GetVelocity() {
-            return this.Velocity;
+        public bool HasDimension(int dimension) {
+            return Dimensions.ContainsKey(dimension);
         }
 
-        public void AddVelocity(Point3D dv) {
-            this.Velocity = GetVelocity().Add(dv);
+        public void AddDimension(int dimension, int position) {
+            this.AddDimension(dimension, position, 0);
         }
 
-        public void ApplyVelocity() {
-            AddPosition(GetVelocity());
+        public void AddDimension(int dimension, int position, int velocity) {
+            this.AddDimension(dimension, new CelestialDimension(position, velocity));
+        }
+        
+        public virtual void AddDimension(int dimension, CelestialDimension celestialDimension) {
+            Dimensions.Add(dimension, celestialDimension);
         }
 
-        public void ApplyGravity(List<CelestialBody> bodies) {
-            foreach (var body in bodies) ApplyGravity(body);
+        public CelestialDimension GetDimension(int dimension) {
+            return Dimensions[dimension];
         }
 
-        public void ApplyGravity(CelestialBody body) {
-            Point3D thisPosition = this.GetPosition();
-            Point3D bodyPosition = body.GetPosition();
+        public IEnumerable<(int Dimension, CelestialDimension CelestialDimension)> GetDimensions() {
+            return Dimensions.Select(dimensionEntry => (dimensionEntry.Key, dimensionEntry.Value));
+        }
 
-            int dx = thisPosition.GetDeltaX(bodyPosition);
-            int dy = thisPosition.GetDeltaY(bodyPosition);
-            int dz = thisPosition.GetDeltaZ(bodyPosition);
+        public void ApplyGravity(IEnumerable<CelestialBody> celestialBodies) {
+            foreach (var celestialBody in celestialBodies) ApplyGravity(celestialBody);
+        }
 
-            int ddx = 0;
-            int ddy = 0;
-            int ddz = 0;
+        public virtual void ApplyGravity(CelestialBody body) {
+            foreach(var dimensionEntry in Dimensions) {
+                int dimension = dimensionEntry.Key;
 
-            if (thisPosition.GetX() != bodyPosition.GetX()) ddx = (thisPosition.GetX() < bodyPosition.GetX()) ? 1 : -1;
-            if (thisPosition.GetY() != bodyPosition.GetY()) ddy = (thisPosition.GetY() < bodyPosition.GetY()) ? 1 : -1;
-            if (thisPosition.GetZ() != bodyPosition.GetZ()) ddz = (thisPosition.GetZ() < bodyPosition.GetZ()) ? 1 : -1;
+                if (body.HasDimension(dimension)) {
+                    CelestialDimension celestialDimension = dimensionEntry.Value;
+                    
+                    int thisPosition = celestialDimension.GetPosition();
+                    int bodyPosition = body.GetDimension(dimension).GetPosition();
+                    int deltaPosition = bodyPosition - thisPosition;
 
-            AddVelocity(new Point3D(ddx, ddy, ddz));
+                    celestialDimension.AddVelocity(Math.Sign(deltaPosition));
+                }
+            }
+        }
+
+        public virtual void ApplyVelocity() {
+            foreach(var celestialDimension in Dimensions.Values) celestialDimension.ApplyVelocity();
         }
 
         public int GetTotalEnergy() {
@@ -61,20 +74,90 @@ namespace AdventOfCode {
         }
         
         public int GetPotentialEnergy() {
-            return GetPosition().GetManhattanSize();
+            return Dimensions.Values.Select(celestialDimension => celestialDimension.GetPotentialEnergy()).Sum();
         }
 
         public int GetKineticEnergy() {
-            return GetVelocity().GetManhattanSize();
+            return Dimensions.Values.Select(celestialDimension => celestialDimension.GetKineticEnergy()).Sum();
+        }
+
+        public virtual CelestialBody Copy() {
+            CelestialBody celestialBody = new CelestialBody(this.GetName());
+            foreach(var dim in GetDimensions()) celestialBody.AddDimension(dim.Dimension, dim.CelestialDimension.Copy());
+            return celestialBody;
+        }
+
+        public ImmutableCelestialBody GetImmutable() {
+            ImmutableCelestialBody celestialBody = new ImmutableCelestialBody(this.GetName());
+            foreach(var dim in GetDimensions()) celestialBody.AddDimension(dim.Dimension, dim.CelestialDimension.GetImmutable());
+            celestialBody.Preserve();
+
+            return celestialBody;
+        }
+        
+        override public bool Equals(Object obj) {
+            if (obj == this) return true; // If same reference => same object
+            if (obj == null) return false;
+            if (!obj.GetType().IsInstanceOfType(this)) return false;
+
+            CelestialBody b = (CelestialBody) obj;
+            if (!b.GetName().Equals(this.GetName())) return false;
+            if (b.GetNumberOfDimensions() != this.GetNumberOfDimensions()) return false;
+            foreach (var dim in b.GetDimensions()) if (!this.HasDimension(dim.Dimension) || !this.GetDimension(dim.Dimension).Equals(dim.CelestialDimension)) return false;
+            
+            return true;
+        }
+
+        override public int GetHashCode() {
+            throw new Exception("Mutable celestial bodies don't support hash codes!");
+            return 0;
         }
 
         override public string ToString() {
-            return "CelestialBody(Pos: " + GetPosition() + ", Vel: " + GetVelocity() + ")";
-        }
-        
-        public string ToCSV() {
-            return GetPosition().ToCSV() + GetVelocity().ToCSV();
+            string str = String.Format("{0}({1}): [\n", this.GetType().Name, this.GetName());
+            foreach (var dim in GetDimensions()) str = str + String.Format("    - Dim: {0} => {1}\n", dim.Dimension, dim.CelestialDimension);
+            return str + "]";
         }
 
+    }
+
+    class ImmutableCelestialBody : CelestialBody {
+
+        public ImmutableCelestialBody(string name) : base(name) {}
+            
+        private bool Immutable = false;
+        public void Preserve() {
+            Immutable = true;
+        }
+
+        override public void AddDimension(int dimension, CelestialDimension celestialDimension) {
+            if (Immutable) throw new Exception("Immutable objects cannot be modified!");
+            base.AddDimension(dimension, celestialDimension);
+        }
+
+        override public void ApplyGravity(CelestialBody body) {
+            if (Immutable) throw new Exception("Immutable objects cannot be modified!");
+            base.ApplyGravity(body);
+        }
+        
+        override public void ApplyVelocity() {
+            if (Immutable) throw new Exception("Immutable objects cannot be modified!");
+            base.ApplyVelocity();
+        }
+
+        override public CelestialBody Copy() {
+            return this; // This is immutable, no need to make a copy.
+        }
+
+        override public int GetHashCode() {
+            int hashCode = 0;
+
+            // Calc hash code
+            foreach (var dim in GetDimensions()) {
+                hashCode = 31*hashCode + dim.CelestialDimension.GetHashCode();
+            }
+
+            return hashCode ^ GetName().GetHashCode();
+        }
     }
 }
