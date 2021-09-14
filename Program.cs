@@ -25,6 +25,7 @@ namespace csharp {
             adventOfCode2019Puzzles.Add(new MonitoringStation());
             adventOfCode2019Puzzles.Add(new SpacePolice());
             adventOfCode2019Puzzles.Add(new TheNBodyProblem());
+            adventOfCode2019Puzzles.Add(new CarePackage());
             adventOfCodePuzzles.Add(adventOfCode2019Puzzles);
 
             // Run

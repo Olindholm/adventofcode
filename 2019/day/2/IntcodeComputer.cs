@@ -106,6 +106,10 @@ namespace AdventOfCode {
             Outputs.Enqueue(output);
         }
 
+        public bool HasMoreOutput() {
+            return (Outputs.Count > 0);
+        }
+
         public long GetOutput() {
             return Outputs.Dequeue();
         }
