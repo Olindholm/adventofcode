@@ -6,8 +6,8 @@ namespace AdventOfCode {
     class CrossedWires : AdventOfCodePuzzle {
         public CrossedWires() : base(2019, 3) {}
 
-        override public void Solve() {
-            string[] wireStrings = this.GetPuzzleInput().Split("\n");
+        override protected void SolvePuzzle(string puzzleInput) {
+            string[] wireStrings = puzzleInput.Split("\n");
 
             // Origin
             Point2D origin = Point2D.ORIGIN;

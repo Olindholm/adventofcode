@@ -6,9 +6,9 @@ namespace AdventOfCode {
     class SpacePolice : AdventOfCodePuzzle {
         public SpacePolice() : base(2019, 11) {}
 
-        override public void Solve() {
+        override protected void SolvePuzzle(string puzzleInput) {
             // Load program
-            long[] program = IntcodeComputer.ParseProgram(this.GetPuzzleInput());
+            long[] program = IntcodeComputer.ParseProgram(puzzleInput);
 
             // Paint the ship
             Dictionary<Point2D, int> spaceshipPanels = new Dictionary<Point2D, int>();

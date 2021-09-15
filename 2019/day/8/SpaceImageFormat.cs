@@ -6,9 +6,9 @@ namespace AdventOfCode {
     class SpaceImageFormat : AdventOfCodePuzzle {
         public SpaceImageFormat() : base(2019, 8) {}
 
-        override public void Solve() {
+        override protected void SolvePuzzle(string puzzleInput) {
             // Load
-            string encodedImageData = this.GetPuzzleInput();
+            string encodedImageData = puzzleInput;
             
             // imageLayers properties
             int width = 25;

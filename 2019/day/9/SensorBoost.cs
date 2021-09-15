@@ -6,9 +6,9 @@ namespace AdventOfCode {
     class SensorBoost : AdventOfCodePuzzle {
         public SensorBoost() : base(2019, 9) {}
 
-        override public void Solve() {
+        override protected void SolvePuzzle(string puzzleInput) {
             // Load program
-            long[] program = IntcodeComputer.ParseProgram(this.GetPuzzleInput());
+            long[] program = IntcodeComputer.ParseProgram(puzzleInput);
 
             // Init computer
             IntcodeComputer computer = new IntcodeComputer();

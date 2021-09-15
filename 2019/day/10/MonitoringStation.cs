@@ -6,9 +6,9 @@ namespace AdventOfCode {
     class MonitoringStation : AdventOfCodePuzzle {
         public MonitoringStation() : base(2019, 10) {}
 
-        override public void Solve() {
+        override protected void SolvePuzzle(string puzzleInput) {
             // Load puzzle input
-            string[] astroidMap = this.GetPuzzleInput().SplitToLines();
+            string[] astroidMap = puzzleInput.SplitToLines();
 
             List<Astroid> astroids = new List<Astroid>();
             for (int y = 0; y < astroidMap.Length; y++) {

@@ -7,9 +7,11 @@ namespace AdventOfCode {
     class SecureContainer : AdventOfCodePuzzle {
         public SecureContainer() : base(2019, 4) {}
         
-        override public void Solve() {
-            int min = 152085;
-            int max = 670283;
+        override protected void SolvePuzzle(string puzzleInput) {
+            string[] puzzleParameters = puzzleInput.Split(",");
+
+            int min = Int32.Parse(puzzleParameters[0]);
+            int max = Int32.Parse(puzzleParameters[1]);
             int x;
 
             x = SecureContainer.call(min, max, false);

@@ -8,9 +8,9 @@ namespace AdventOfCode {
     class TheNBodyProblem : AdventOfCodePuzzle {
         public TheNBodyProblem() : base(2019, 12) {}
 
-        override public void Solve() {
+        override protected void SolvePuzzle(string puzzleInput) {
             // Extract celestial bodies (moons)
-            CelestialBody[] celestialBodies = ParseInput(this.GetPuzzleInput());
+            CelestialBody[] celestialBodies = ParseInput(puzzleInput);
 
             // Create universe & simulate 1,000 steps
             Universe universe = new Universe(celestialBodies);

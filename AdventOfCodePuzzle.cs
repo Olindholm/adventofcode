@@ -22,12 +22,21 @@ namespace AdventOfCode {
             return this.Key.GetDay();
         }
 
-        public string GetPuzzleInput() {
+        private string GetPuzzleInput() {
             string puzzleInputFile = this.GetYear() + "/day/" + this.GetDay() + "/" + "PuzzleInput.txt";
             return System.IO.File.ReadAllText(puzzleInputFile).Trim();
         }
         
-        public abstract void Solve();
+        public void Solve() {
+            Solve(GetPuzzleInput());
+        }
+        public void Solve(string puzzleInput) {
+            Console.WriteLine("--- Day {0,2} ({1,4}): {2} ---", GetDay(), GetYear(), GetType().Name);
+            SolvePuzzle(puzzleInput);
+            Console.Write("\n\n\n"); // Create some space after (for when multiple solve's are run)
+        }
+
+        protected abstract void SolvePuzzle(string puzzleInput);
 
     }
 }

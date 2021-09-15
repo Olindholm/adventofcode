@@ -6,8 +6,8 @@ namespace AdventOfCode {
     class ProgramAlarm1202 : AdventOfCodePuzzle {
         public ProgramAlarm1202() : base(2019, 2) {}
 
-        override public void Solve() {
-            long[] program = IntcodeComputer.ParseProgram(this.GetPuzzleInput());
+        override protected void SolvePuzzle(string puzzleInput) {
+            long[] program = IntcodeComputer.ParseProgram(puzzleInput);
             program[1] = 12;
             program[2] = 2;
 

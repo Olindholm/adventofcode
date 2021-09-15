@@ -6,9 +6,9 @@ namespace AdventOfCode {
     class AmplificationCircuit : AdventOfCodePuzzle {
         public AmplificationCircuit() : base(2019, 7) {}
 
-        override public void Solve() {
+        override protected void SolvePuzzle(string puzzleInput) {
             // Load program
-            long[] program = IntcodeComputer.ParseProgram(this.GetPuzzleInput());
+            long[] program = IntcodeComputer.ParseProgram(puzzleInput);
 
             // Init amplifiers (computers)
             char[] amplifiers = {'A', 'B', 'C', 'D', 'E'};
