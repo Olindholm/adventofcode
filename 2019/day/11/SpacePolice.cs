@@ -80,7 +80,7 @@ namespace AdventOfCode {
                 else throw new Exception("Invalid turn!");
                 robot.MoveForward(1);
 
-                if (computer.isFinished()) break;
+                if (computer.IsFinished()) break;
             }
             
         }

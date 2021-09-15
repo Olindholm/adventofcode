@@ -28,7 +28,76 @@ namespace AdventOfCode {
             computer.Run();
 
             // Get graphics
-            string[] colorPallette = {" ", "█", "#", "_", "o"};
+            string[] colorPallette = {" ", "█", "#", "-", "o"};
+            IEnumerable<KeyValuePair<Point2D, int>> tiles = retrieveTiles(computer);
+
+            // Count blocks
+            int numberOfBlocks = tiles.Where(tile => (tile.Value == 2)).Count();
+            Console.WriteLine("The game has {0} block tiles and looks as:", numberOfBlocks);
+
+            Console.Write(SpaceImageFormat.ImageToString(tiles, colorPallette));
+
+            // Part two
+            // Beat the game?
+            Dictionary<Point2D, int> screen = new Dictionary<Point2D, int>();
+            Point2D scorePosition = new Point2D(-1, 0);
+            int score = 0;
+
+            // Set the game free to play
+            program[0] = 2;
+
+            // Reload and run program
+            computer.LoadProgram(program);
+            computer.Run();
+
+            while (true) {
+                // Retrieve and draw graphics
+                foreach (var tile in retrieveTiles(computer)) {
+                    Point2D position = tile.Key;
+                    if (position.Equals(scorePosition)) score = tile.Value;
+                    else screen[position] = tile.Value;
+                }
+                //Console.Write(SpaceImageFormat.ImageToString(screen, colorPallette));
+
+                // Poll user input
+                //int input = GetUserInput();
+                int input = GetAIInput(screen);
+
+                // If computer is finished, break
+                // (either by victory or loss)
+                if (computer.IsFinished()) break;
+
+                // Forward input and run computer
+                computer.Run(input);
+            }
+
+            Console.WriteLine("The score after breaking the last block is: {0}", score);
+        }
+
+        int GetAIInput(IEnumerable<KeyValuePair<Point2D, int>> screen) {
+            // Find ball, and horizontal padel
+            Point2D paddle = screen.Where(tile => (tile.Value == 3)).Select(tile => tile.Key).First();
+            Point2D ball = screen.Where(tile => (tile.Value == 4)).Select(tile => tile.Key).First();
+
+            return Math.Sign(paddle.GetDeltaX(ball));
+        }
+
+        int GetUserInput() {
+            while (true) {
+                var key = Console.ReadKey(false).Key;
+
+                switch(key) {
+                    case ConsoleKey.DownArrow: return 0;
+                    case ConsoleKey.LeftArrow: return -1;
+                    case ConsoleKey.RightArrow: return 1;
+                    case ConsoleKey.Escape:
+                        System.Environment.Exit(1);
+                        return 0; // Just return something
+                }
+            }
+        }
+
+        IEnumerable<KeyValuePair<Point2D, int>> retrieveTiles(IntcodeComputer computer) {
             Dictionary<Point2D, int> screen = new Dictionary<Point2D, int>();
             while (computer.HasMoreOutput()) {
                 // Get 3 ouputs
@@ -39,15 +108,7 @@ namespace AdventOfCode {
                 screen[new Point2D(x, y)] = c;
             }
 
-            // Count blocks
-            int numberOfBlocks = screen.Values.Where(c => (c == 2)).Count();
-            Console.WriteLine("The game has {0} block tiles and looks as:", numberOfBlocks);
-            
-            int[,] image = SpaceImageFormat.PixelsToImage(screen);
-            Console.Write(SpaceImageFormat.ImageToString(image, colorPallette));
-
-            // Part two
-            // Beat the game?
+            return screen;
         }
     }
 }

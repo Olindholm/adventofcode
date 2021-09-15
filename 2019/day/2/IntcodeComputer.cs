@@ -123,11 +123,11 @@ namespace AdventOfCode {
             this.ExitCode = exitCode;
         }
 
-        public bool isFinished() {
-            return !isRunning() && this.ExitCode == 0;
+        public bool IsFinished() {
+            return !IsRunning() && this.ExitCode == 0;
         }
 
-        public bool isRunning() {
+        public bool IsRunning() {
             return this.Running;
         }
 
@@ -143,7 +143,7 @@ namespace AdventOfCode {
             AddInputs(inputs);
 
             this.Running = true;
-            while (isRunning()) {
+            while (IsRunning()) {
                 long intcode = GetProgramIntcode();
                 int[] intcodeDigits = Digits(intcode);
 

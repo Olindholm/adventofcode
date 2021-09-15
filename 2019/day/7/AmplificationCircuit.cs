@@ -81,7 +81,7 @@ namespace AdventOfCode {
                     output = computer.GetOutput();
 
                     n++;
-                    if (n == N && computer.isFinished()) break;
+                    if (n == N && computer.IsFinished()) break;
                     n = n % N;
                 }
                 

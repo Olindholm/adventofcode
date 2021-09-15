@@ -99,6 +99,10 @@ namespace AdventOfCode {
         public static string ImageToString(int[,] image) {
             return ImageToString(image, BLACK_AND_WHITE);
         }
+        
+        public static string ImageToString(IEnumerable<KeyValuePair<Point2D, int>> pixels, string[] colorPallette) {
+            return ImageToString(PixelsToImage(pixels), colorPallette);
+        }
 
         public static int[,] PixelsToImage(IEnumerable<KeyValuePair<Point2D, int>> pixels) {
             return PixelsToImage(pixels, false);
