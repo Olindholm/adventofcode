@@ -11,6 +11,30 @@
             "presentation": {
                 "clear": true
             }
+        },
+        {
+            "label": "$(play) Run Latest",
+            "type": "shell",
+            "command": "dotnet",
+            "args": [
+                "run",
+                "--latest"
+            ],
+            "presentation": {
+                "clear": true
+            }
+        },
+        {
+            "label": "$(play) Run All",
+            "type": "shell",
+            "command": "dotnet",
+            "args": [
+                "run",
+                "--all"
+            ],
+            "presentation": {
+                "clear": true
+            }
         }
     ]
 }

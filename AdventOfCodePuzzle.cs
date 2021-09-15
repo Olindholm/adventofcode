@@ -5,18 +5,21 @@ using System.Collections.Generic;
 namespace AdventOfCode {
     abstract class AdventOfCodePuzzle {
 
-        private int Year, Day;
+        private AdventOfCodeKey Key;
 
         public AdventOfCodePuzzle(int year, int day) {
-            this.Year = year;
-            this.Day = day;
+            this.Key = new AdventOfCodeKey(year, day);
+        }
+
+        public AdventOfCodeKey GetKey() {
+            return this.Key;
         }
 
         public int GetYear() {
-            return this.Year;
+            return this.Key.GetYear();
         }
         public int GetDay() {
-            return this.Day;
+            return this.Key.GetDay();
         }
 
         public string GetPuzzleInput() {
