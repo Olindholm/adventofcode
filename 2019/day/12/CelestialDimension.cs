@@ -72,7 +72,13 @@ namespace AdventOfCode {
 
         override public int GetHashCode() {
             throw new Exception("Mutable celestial dimensions don't support hash codes!");
+            
+            // Just return something
+            // This code will never be reached.
+            // Disable warning for Unreachable code (CS0162)
+            #pragma warning disable CS0162
             return 0;
+            #pragma warning restore CS0162
         }
 
         override public string ToString() {
