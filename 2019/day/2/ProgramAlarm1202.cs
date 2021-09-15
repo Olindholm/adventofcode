@@ -8,22 +8,24 @@ namespace AdventOfCode {
 
         override protected void SolvePuzzle(string puzzleInput) {
             long[] program = IntcodeComputer.ParseProgram(puzzleInput);
-            program[1] = 12;
-            program[2] = 2;
-
-            IntcodeComputer computer = InitComputer();
-            computer.LoadProgram(program);
-            computer.Run();
-
-            Console.WriteLine(program[0]);
-        }
-
-        public static IntcodeComputer InitComputer() {
+            
+            // Init computer
             IntcodeComputer computer = new IntcodeComputer();
             computer.AddInstruction(new IntcodeAddition());
             computer.AddInstruction(new IntcodeMultiplication());
             computer.AddInstruction(new IntcodeHalt());
-            return computer;
+
+            // Edit program
+            program[1] = 12;
+            program[2] = 2;
+
+            // Load and run program
+            computer.LoadProgram(program);
+            computer.Run();
+
+            Console.WriteLine("The value left at position 0 is: {0}", computer.GetProgramValue(0));
+
+            // Part two
         }
     }
 }

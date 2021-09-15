@@ -56,14 +56,13 @@ namespace AdventOfCode {
             List<int> manhanttanDistances = intersections.Select(p => p.GetManhattanSize()).ToList();
             manhanttanDistances.Sort();
 
-            Console.WriteLine(manhanttanDistances[1]);
-            Console.WriteLine("Done");
+            Console.WriteLine("The manhattan distance from the central port to the closest intersection is: {0}", manhanttanDistances[1]);
 
-            // Part Two
+            // Part two
             List<int> signalDelay = intersections.Select(p => wires.Select(wire => wire.IndexOf(p)).Sum()).ToList();
             signalDelay.Sort();
 
-            Console.WriteLine(signalDelay[1]);
+            Console.WriteLine("The fewest steps combined steps the wires must take to reach an intersection is: {0}", signalDelay[1]);
         }
     }
 }

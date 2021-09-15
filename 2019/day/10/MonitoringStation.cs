@@ -21,17 +21,18 @@ namespace AdventOfCode {
                 }
             }
 
-            var monitoringStation = astroids.Aggregate<Astroid, (Astroid astroid, int astroidInSight)>((null, -1), (candidatingAstroid, nextAstroid) => {
+            var monitoringStation = astroids.Aggregate<Astroid, (Astroid Astroid, int AstroidInSight)>((null, -1), (candidatingAstroid, nextAstroid) => {
                 int astroidInSight = astroids.Where(astroid => astroid != nextAstroid).Select(astroid => nextAstroid.GetAngle(astroid)).ToHashSet().Count;
-                return (astroidInSight > candidatingAstroid.astroidInSight) ? (nextAstroid, astroidInSight) : candidatingAstroid;
+                return (astroidInSight > candidatingAstroid.AstroidInSight) ? (nextAstroid, astroidInSight) : candidatingAstroid;
             });
 
-            Console.WriteLine(monitoringStation.astroidInSight);
+            Console.WriteLine("The best monitoring station is located at: ({0}, {1})", monitoringStation.Astroid.GetX(), monitoringStation.Astroid.GetY());
+            Console.WriteLine("The number of other astroids that can be detected from there are: {0}", monitoringStation.AstroidInSight);
 
             // Part Two
-            Astroid laser = monitoringStation.astroid;
+            Astroid laser = monitoringStation.Astroid;
             IEnumerable<IGrouping<double, Astroid>> astroidGroupByAngle = astroids
-            .Where(astroid => astroid != monitoringStation.astroid)
+            .Where(astroid => astroid != monitoringStation.Astroid)
             .GroupBy(
                 astroid => laser.GetAngle(astroid),
                 astroid => astroid
@@ -85,7 +86,8 @@ namespace AdventOfCode {
             Astroid astroid200 = astroidsToLaser[200-1];
             int answer = 100*astroid200.GetX() + astroid200.GetY();
 
-            Console.WriteLine(answer);
+            Console.WriteLine("The 200th astroid to be vaporized is located at: ({0}, {1})", astroid200.GetX(), astroid200.GetY());
+            Console.WriteLine("The answer is: {0}", answer);
 
             // Detta sorteas inte på rätt sätt...
             // den ger alla stenar av samma vinkel först, inge bra

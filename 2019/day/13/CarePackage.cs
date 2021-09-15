@@ -23,10 +23,12 @@ namespace AdventOfCode {
             computer.AddInstruction(new IntcodeEquals());
             computer.AddInstruction(new IntcodeAdjustRelativeBase());
 
-            // Load program
+            // Load and run program
             computer.LoadProgram(program);
             computer.Run();
 
+            // Get graphics
+            string[] colorPallette = {" ", "█", "#", "_", "o"};
             Dictionary<Point2D, int> screen = new Dictionary<Point2D, int>();
             while (computer.HasMoreOutput()) {
                 // Get 3 ouputs
@@ -39,7 +41,13 @@ namespace AdventOfCode {
 
             // Count blocks
             int numberOfBlocks = screen.Values.Where(c => (c == 2)).Count();
-            Console.WriteLine(numberOfBlocks);
+            Console.WriteLine("The game has {0} block tiles and looks as:", numberOfBlocks);
+            
+            int[,] image = SpaceImageFormat.PixelsToImage(screen);
+            Console.Write(SpaceImageFormat.ImageToString(image, colorPallette));
+
+            // Part two
+            // Beat the game?
         }
     }
 }

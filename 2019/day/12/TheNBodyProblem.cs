@@ -17,7 +17,7 @@ namespace AdventOfCode {
             universe.Simulate(1000);
 
             int totalSystemEnergy = universe.GetTotalEnergy();
-            Console.WriteLine(totalSystemEnergy);
+            Console.WriteLine("The total energy in the system after 1000 steps of simulation is: {0}", totalSystemEnergy);
 
             // Part Two
             // Every dimension, x, y, and z is independant of one another.
@@ -86,12 +86,11 @@ namespace AdventOfCode {
 
             // Find the least common multiple
             long leastCommonMultiple = periodicities[0];
-            for (int i = 1; i < dimensionCount; i++) {
-                long periodicity = periodicities[i];
+            for (int dimension = 1; dimension < dimensionCount; dimension++) leastCommonMultiple = MathExtensions.LCM(leastCommonMultiple, periodicities[dimension]);
 
-                leastCommonMultiple = MathExtensions.LCM(leastCommonMultiple, periodicity);
-            }
-            Console.WriteLine(leastCommonMultiple);
+            for (int dimension = 0; dimension < dimensionCount; dimension++) Console.WriteLine("The periodicity of dimension {0} is: {1}", dimension, periodicities[dimension]);
+            Console.WriteLine("The least common multiple (and thus least common periodicity) of all dimensions is: {0}", leastCommonMultiple);
+            Console.WriteLine("Thus, that is how many steps it will take for the system to reach a previous state.");
         }
 
         public CelestialBody[] ParseInput(string input) {

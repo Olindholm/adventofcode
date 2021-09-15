@@ -9,6 +9,7 @@ namespace AdventOfCode {
         override protected void SolvePuzzle(string puzzleInput) {
             // Load program
             long[] program = IntcodeComputer.ParseProgram(puzzleInput);
+            long diagnosticCode = 0;
 
             // Init computer
             IntcodeComputer computer = new IntcodeComputer();
@@ -21,6 +22,10 @@ namespace AdventOfCode {
             // Run program
             computer.LoadProgram(program);
             computer.Run(1);
+            
+            // Extract (final) diagnostic code
+            while (computer.HasMoreOutput()) diagnosticCode = computer.GetOutput();
+            Console.WriteLine("The final diagnostic code is: {0}", diagnosticCode);
 
             // Part Two
             // Add additional instructions
@@ -32,6 +37,10 @@ namespace AdventOfCode {
             // Run program
             computer.LoadProgram(program);
             computer.Run(5);
+            
+            // Extract (final) diagnostic code
+            while (computer.HasMoreOutput()) diagnosticCode = computer.GetOutput();
+            Console.WriteLine("The final diagnostic code is: {0}", diagnosticCode);
 
         }
     }

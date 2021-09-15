@@ -55,7 +55,7 @@ namespace AdventOfCode {
                 return output;
             }).Max();
 
-            Console.WriteLine(maxThrusterSignal);
+            Console.WriteLine("The maximal signal that can be sent to the thrusters is: {0}", maxThrusterSignal);
 
             // Part Two
             // Calculate phase permutations/combinations
@@ -88,8 +88,7 @@ namespace AdventOfCode {
                 return output;
             }).Max();
 
-
-            Console.WriteLine(maxThrusterSignal);
+            Console.WriteLine("The maximal signal that can be sent to the thrusters is: {0}", maxThrusterSignal);
         }
 
         public static List<List<int>> generateCombinations(List<int> collection) {
