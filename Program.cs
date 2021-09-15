@@ -52,6 +52,7 @@ namespace csharp {
             AddPuzzle(new CrossedWires());
             AddPuzzle(new SecureContainer());
             AddPuzzle(new SunnyWithAChanceOfAsteroids());
+            AddPuzzle(new UniversalOrbitMap());
             AddPuzzle(new AmplificationCircuit());
             AddPuzzle(new SpaceImageFormat());
             AddPuzzle(new SensorBoost());
