@@ -6,9 +6,9 @@ namespace AdventOfCode {
     class StoichiometryItem {
 
         private string Compound;
-        private int Quantity;
+        private long Quantity;
 
-        public StoichiometryItem(string compound, int quantity) {
+        public StoichiometryItem(string compound, long quantity) {
             this.Compound = compound;
             this.Quantity = quantity;
         }
@@ -17,7 +17,7 @@ namespace AdventOfCode {
             return Compound;
         }
 
-        public int GetQuantity() {
+        public long GetQuantity() {
             return Quantity;
         }
     }

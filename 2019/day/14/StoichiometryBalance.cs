@@ -5,13 +5,13 @@ using System.Collections.Generic;
 namespace AdventOfCode {
     class StoichiometryBalance {
 
-        Dictionary<string, int> Items = new Dictionary<string, int>();
+        Dictionary<string, long> Items = new Dictionary<string, long>();
 
         public void AddItem(StoichiometryItem item) {
             AddItem(item.GetCompound(), item.GetQuantity());
         }
 
-        public void AddItem(string compound, int quantity) {
+        public void AddItem(string compound, long quantity) {
             // If input compound already exists
             // Merge the inputs (quantity)
             if (Items.ContainsKey(compound)) quantity += Items[compound];
@@ -23,19 +23,31 @@ namespace AdventOfCode {
             return Items.Select(entry => new StoichiometryItem(entry.Key, entry.Value));
         }
 
-        public int GetQuantity(string compound) {
-            int quantity = 0;
+        public IEnumerable<StoichiometryItem> GetNonAbundantItems() {
+            return GetItems().Where(item => !item.GetCompound().Equals("ORE"));
+        }
+
+        public void Clear() {
+            Items.Clear();
+        }
+
+        public long GetQuantity(string compound) {
+            long quantity = 0;
             Items.TryGetValue(compound, out quantity);
             return quantity;
         }
 
         public void Exchange(StoichiometryRecipe recipe) {
+            Exchange(recipe, 1);
+        }
+
+        public void Exchange(StoichiometryRecipe recipe, long multiple) {
             // Remove inputs
-            foreach (var inputItem in recipe.GetInputs()) AddItem(inputItem.GetCompound(), -inputItem.GetQuantity());
+            foreach (var inputItem in recipe.GetInputs()) AddItem(inputItem.GetCompound(), -multiple * inputItem.GetQuantity());
 
             // Add output
             var outputItem = recipe.GetOutput();
-            AddItem(outputItem.GetCompound(), outputItem.GetQuantity());
+            AddItem(outputItem.GetCompound(), multiple * outputItem.GetQuantity());
         }
 
         override public string ToString() {
