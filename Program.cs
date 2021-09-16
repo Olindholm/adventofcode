@@ -60,6 +60,7 @@ namespace csharp {
             AddPuzzle(new SpacePolice());
             AddPuzzle(new TheNBodyProblem());
             AddPuzzle(new CarePackage());
+            AddPuzzle(new SpaceStoichiometry());
         }
 
         void AddPuzzle(AdventOfCodePuzzle puzzle) {
