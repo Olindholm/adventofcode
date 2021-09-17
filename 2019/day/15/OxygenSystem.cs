@@ -10,7 +10,7 @@ namespace AdventOfCode {
         override protected void SolvePuzzle(string puzzleInput) {
             // Load program
             long[] program = IntcodeComputer.ParseProgram(puzzleInput);
-            
+
             // Init computer
             IntcodeComputer computer = new IntcodeComputer();
             computer.AddInstruction(new IntcodeAddition());
@@ -46,8 +46,8 @@ namespace AdventOfCode {
             costMap[currentPosition] = 0;
             int prevCmd = 0;
 
-            bool goalFound = false;
-            while (!goalFound) {
+            Point2D goalPosition = null;
+            while (true) {
                 // Draw map
                 //Console.WriteLine(MapToString(map, defaultTile, true));
                 //Console.Write("\n\n\n");
@@ -73,7 +73,7 @@ namespace AdventOfCode {
                         if (statusCode == 1) nextTile = new RobotTile();
                         else if (statusCode == 2) {
                             nextTile = new OxygenSystemTile();
-                            goalFound = true;
+                            goalPosition = nextPosition;
                         }
                         map[nextPosition] = nextTile;
                     }
@@ -93,9 +93,59 @@ namespace AdventOfCode {
                     prevCmd = moveCmd;
                 }
                 else throw new Exception("Program corrupt!");
+
+                // Break when goal found and back at origin
+                // (The whole map needs to be explored)
+                if (goalPosition != null && currentPosition.Equals(Point2D.ORIGIN)) break;
             }
 
-            Console.WriteLine(costMap[currentPosition]);
+            Console.WriteLine("The whole area has been explored and looks like:");
+            Console.WriteLine(MapToString(map, defaultTile, true));
+            Console.WriteLine("The fewest number of steps to the oxygen system is: {0}", costMap[goalPosition]);
+
+            // Part two
+            var oxygenMap = new Dictionary<Point2D, int>();
+            var explorerPositions = new Queue<Point2D>();
+
+            // Add oxygen system to map
+            oxygenMap[goalPosition] = 0;
+            explorerPositions.Enqueue(goalPosition);
+
+            while (explorerPositions.Count > 0) {
+                var thisPos = explorerPositions.Dequeue();
+                int thisMin = oxygenMap[thisPos]+1;
+
+                // Explore adjacent positions
+                // (if walkable)
+                foreach (var moveCmd in moveCmds) {
+                    var nextPos = moveCmd(thisPos);
+
+                    // Check if occupiable
+                    // Could use IsOccupiable(map, nextPos)
+                    // But it's less safe, because in the
+                    // unlikely scenario that origin has two
+                    // roads to walk, parts of the map could
+                    // be unexplored, causing oxygen to leak into
+                    // unexplored area, and thus "space"
+                    // This would use loop forever...
+                    //
+                    // Instead, since we assume the whole map is
+                    // explored, all valid points should exist in
+                    // the cost map. So check if the entry exists
+                    // in that?
+                    if (costMap.ContainsKey(nextPos)) {
+                        int prevMin = Int32.MaxValue;
+                        if (oxygenMap.ContainsKey(nextPos)) prevMin = oxygenMap[nextPos];
+                        if (thisMin < prevMin) {
+                            oxygenMap[nextPos] = thisMin;
+                            explorerPositions.Enqueue(nextPos);
+                        }
+                    }
+                }
+            }
+
+            int timeToFillEverything = oxygenMap.Values.Max();
+            Console.WriteLine("The time it takes to fill the entire area with oxygen is: {0}", timeToFillEverything);
         }
 
         string MapToString(IEnumerable<KeyValuePair<Point2D, MapTile>> pixels, MapTile defaultTile) {
