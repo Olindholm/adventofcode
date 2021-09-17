@@ -38,7 +38,7 @@ namespace csharp {
                     int day = Int32.Parse(subargs[0]);
                     int year = (subargs.Length > 1) ? Int32.Parse(subargs[1]) : latest.GetYear();
 
-                    puzzlesToSolve.Add(new AdventOfCodeKey(day, year));
+                    puzzlesToSolve.Add(new AdventOfCodeKey(year, day));
                 }
             }
 
