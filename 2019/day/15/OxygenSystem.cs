@@ -34,6 +34,7 @@ namespace AdventOfCode {
             // Part two
             // Beat the game?
             var map = new Dictionary<Point2D, MapTile>();
+            var costMap = new Dictionary<Point2D, int>();
             var defaultTile = new UnknownTile();
 
             // Load the program
@@ -42,17 +43,18 @@ namespace AdventOfCode {
             // Add robot to map
             Point2D currentPosition = Point2D.ORIGIN;
             map[currentPosition] = new RobotTile(true);
+            costMap[currentPosition] = 0;
             int prevCmd = 0;
 
-            while (true) {
+            bool goalFound = false;
+            while (!goalFound) {
                 // Draw map
-                Console.WriteLine(MapToString(map, defaultTile, true));
-                Console.Write("\n\n\n");
+                //Console.WriteLine(MapToString(map, defaultTile, true));
+                //Console.Write("\n\n\n");
 
                 int moveCmd;
                 //moveCmd = GetUserInput();
                 moveCmd = GetAIInput(map, currentPosition, moveCmds, prevCmd);
-                Console.WriteLine("moveCmd: {0}", 1+moveCmd);
 
                 // Run program
                 computer.Run(ConvertToIntcodeInstruction(moveCmd));
@@ -71,21 +73,29 @@ namespace AdventOfCode {
                         if (statusCode == 1) nextTile = new RobotTile();
                         else if (statusCode == 2) {
                             nextTile = new OxygenSystemTile();
+                            goalFound = true;
                         }
                         map[nextPosition] = nextTile;
                     }
 
+                    // Update map
                     currentTile.Vacate();
                     nextTile.Occupy();
 
+                    // Update cost map
+                    int thisCost = costMap[currentPosition]+1;
+                    int nextCost = Int32.MaxValue;
+                    if (costMap.ContainsKey(nextPosition)) nextCost = costMap[nextPosition];
+                    if (thisCost < nextCost) costMap[nextPosition] = thisCost;
+
+                    // Update position and move command
                     currentPosition = nextPosition;
                     prevCmd = moveCmd;
                 }
                 else throw new Exception("Program corrupt!");
             }
-            
-            Console.WriteLine(MapToString(map, defaultTile, true));
-            Console.Write("\n\n\n");
+
+            Console.WriteLine(costMap[currentPosition]);
         }
 
         string MapToString(IEnumerable<KeyValuePair<Point2D, MapTile>> pixels, MapTile defaultTile) {
