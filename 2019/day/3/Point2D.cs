@@ -41,6 +41,14 @@ namespace AdventOfCode {
             return Math.Atan2(this.GetDeltaY(p), this.GetDeltaX(p));
         }
 
+        public Point2D shiftX(int dx) {
+            return new Point2D(GetX()+dx, GetY());
+        }
+        
+        public Point2D shiftY(int dy) {
+            return new Point2D(GetX(), GetY()+dy);
+        }
+
 
         override public bool Equals(Object obj) {
             if (obj == null) return false;
