@@ -62,6 +62,7 @@ namespace csharp {
             AddPuzzle(new CarePackage());
             AddPuzzle(new SpaceStoichiometry());
             AddPuzzle(new OxygenSystem());
+            AddPuzzle(new FlawedFrequencyTransmission());
         }
 
         void AddPuzzle(AdventOfCodePuzzle puzzle) {
