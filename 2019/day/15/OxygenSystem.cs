@@ -26,10 +26,10 @@ namespace AdventOfCode {
 
             // Init movement commands
             var moveCmds = new List<Func<Point2D, Point2D>>();
-            moveCmds.Add(p => p.shiftY(1));
-            moveCmds.Add(p => p.shiftX(1));
-            moveCmds.Add(p => p.shiftY(-1));
-            moveCmds.Add(p => p.shiftX(-1));
+            moveCmds.Add(p => p.ShiftY(1));
+            moveCmds.Add(p => p.ShiftX(1));
+            moveCmds.Add(p => p.ShiftY(-1));
+            moveCmds.Add(p => p.ShiftX(-1));
 
             // Part two
             // Beat the game?
@@ -148,10 +148,10 @@ namespace AdventOfCode {
             Console.WriteLine("The time it takes to fill the entire area with oxygen is: {0}", timeToFillEverything);
         }
 
-        string MapToString(IEnumerable<KeyValuePair<Point2D, MapTile>> pixels, MapTile defaultTile) {
+        public static string MapToString(IEnumerable<KeyValuePair<Point2D, MapTile>> pixels, MapTile defaultTile) {
             return MapToString(pixels, defaultTile, false);
         }
-        string MapToString(IEnumerable<KeyValuePair<Point2D, MapTile>> pixels, MapTile defaultTile, bool flipY) {
+        public static string MapToString(IEnumerable<KeyValuePair<Point2D, MapTile>> pixels, MapTile defaultTile, bool flipY) {
             char defaultSymbol = defaultTile.GetSymbol();
             int ySign = flipY ? -1 : 1;
             
