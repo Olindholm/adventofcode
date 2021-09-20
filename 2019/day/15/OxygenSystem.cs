@@ -159,7 +159,7 @@ namespace AdventOfCode {
             var ys = pixels.Select(pixel => pixel.Key.GetY());
 
             int xOffset = xs.Min();
-            int yOffset = ys.Min() * ySign;
+            int yOffset = ys.Min();
             int width = 1 + xs.Max() - xOffset;
 
             var sortedPixels = pixels.OrderBy(pixel => pixel.Key.GetY() * ySign).ThenBy(pixel => pixel.Key.GetX()).ToArray();

@@ -80,7 +80,7 @@ namespace AdventOfCode {
             this.instructions[instruction.GetOpcode()] = instruction;
         }
 
-        public void AddInputs(long[] inputs) {
+        public void AddInputs(IEnumerable<long> inputs) {
             if (inputs != null) foreach (long input in inputs) AddInput(input);
         }
         
