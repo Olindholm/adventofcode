@@ -49,5 +49,9 @@ namespace AdventOfCode {
             
             return true;
         }
+        
+        override public int GetHashCode() {
+            return (this.GetDirection() << 2) ^ this.GetSteps();
+        }
     }
 }
