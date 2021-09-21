@@ -65,6 +65,7 @@ namespace csharp {
             AddPuzzle(new FlawedFrequencyTransmission());
             AddPuzzle(new SetAndForget());
             AddPuzzle(new ManyWorldsInterpretation());
+            AddPuzzle(new TractorBeam());
         }
 
         void AddPuzzle(AdventOfCodePuzzle puzzle) {
