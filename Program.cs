@@ -66,6 +66,7 @@ namespace csharp {
             AddPuzzle(new SetAndForget());
             AddPuzzle(new ManyWorldsInterpretation());
             AddPuzzle(new TractorBeam());
+            AddPuzzle(new DonutMaze());
         }
 
         void AddPuzzle(AdventOfCodePuzzle puzzle) {

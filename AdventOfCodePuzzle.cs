@@ -24,7 +24,11 @@ namespace AdventOfCode {
 
         private string GetPuzzleInput() {
             string puzzleInputFile = this.GetYear() + "/day/" + this.GetDay() + "/" + "PuzzleInput.txt";
-            return System.IO.File.ReadAllText(puzzleInputFile).Trim();
+            return ProcessPuzzleInput(System.IO.File.ReadAllText(puzzleInputFile));
+        }
+        
+        protected virtual string ProcessPuzzleInput(string puzzleInput) {
+            return puzzleInput.Trim();
         }
         
         public void Solve() {
