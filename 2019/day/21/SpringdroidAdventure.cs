@@ -10,9 +10,36 @@ namespace AdventOfCode {
         public SpringdroidAdventure() : base(2019, 21) {}
 
         override protected void SolvePuzzle(string puzzleInput) {
-            // Load program
             long[] program = IntcodeComputer.ParseProgram(puzzleInput);
 
+            // Part one
+            // Create springscript
+            string[] springscript = {
+                "NOT C J",
+                "AND D J",
+                "NOT A T",
+                "OR T J",
+            };
+            RunSpringdroid(program, springscript, "WALK");
+
+            // Part two
+            // Create springscript
+            string[] extendedSpringscript = {
+                "NOT B J",
+
+                "NOT C T",
+                "AND H T",
+            
+                "OR T J",
+                "AND D J",
+
+                "NOT A T",
+                "OR T J",
+            };
+            RunSpringdroid(program, extendedSpringscript, "RUN");
+        }
+
+        void RunSpringdroid(long[] program, string[] springscript, string mode) {
             // Init computer
             IntcodeComputer computer = new IntcodeComputer();
             computer.AddInstruction(new IntcodeAddition());
@@ -29,17 +56,11 @@ namespace AdventOfCode {
             // Load program
             computer.LoadProgram(program);
 
-            // Create springscript and load it (input)
-            string[] cmds = {
-                "NOT C J",
-                "AND D J",
-                "NOT A T",
-                "OR T J",
-            };
-            var input = cmds.Append("WALK").Aggregate("", (acc, str) => acc += str + "\n").Select(c => (long) c);
+            // Load springscript (input)
+            var input = springscript.Append(mode).Aggregate("", (acc, str) => acc += str + "\n").Select(c => (long) c);
             computer.AddInputs(input);
 
-            // Run computer
+            // Run springscript (computer)
             computer.Run();
 
             // Get output
