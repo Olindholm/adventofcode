@@ -139,7 +139,7 @@ namespace AdventOfCode {
             Run(new long[] { input });
         }
 
-        public void Run(long[] inputs) {
+        public void Run(IEnumerable<long> inputs) {
             AddInputs(inputs);
 
             this.Running = true;
