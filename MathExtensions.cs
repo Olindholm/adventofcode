@@ -7,6 +7,10 @@ namespace System {
         public static int PositiveModulo(int n, int m) {
             return (n % m + m) % m;
         }
+        
+        public static long PositiveModulo(long n, long m) {
+            return (n % m + m) % m;
+        }
 
         public static long GCF(long firstFactor, params long[] otherFactors) {
             long answer = firstFactor;

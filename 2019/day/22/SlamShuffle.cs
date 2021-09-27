@@ -12,10 +12,24 @@ namespace AdventOfCode {
         override protected void SolvePuzzle(string puzzleInput) {
             var shuffleTasks = puzzleInput.SplitToLines().Select(strLine => ShuffleTechniqueFactory.ParseShuffleTechnique(strLine));
 
-            var newOrderedDeck = Enumerable.Range(0, 10007);
+            var deckSize = 10007;
+            var index = 2019;
 
-            var shuffledDeck = shuffleTasks.Aggregate(newOrderedDeck, (deck, shuffleTask) => shuffleTask.Shuffle(deck)).ToArray();
-            Console.WriteLine(shuffledDeck[2019]);
+            foreach (var shuffleTask in shuffleTasks) {
+                if (shuffleTask is DealIntoNewStackShuffle) {
+                    index = deckSize-1 - index;
+                }
+                else if (shuffleTask is CutShuffle) {
+                    int cut = ((CutShuffle) shuffleTask).GetCut();
+                    index = MathExtensions.PositiveModulo(index - cut, deckSize);
+                }
+                else if (shuffleTask is DealWithIncrementShuffle) {
+                    int increment = ((DealWithIncrementShuffle) shuffleTask).GetIncrement();
+                    index = (increment * index) % deckSize;
+                }
+            }
+
+            Console.WriteLine(index);
         }
 
         int DealWithIncrement(int a) {

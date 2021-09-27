@@ -44,6 +44,10 @@ namespace AdventOfCode {
         public DealWithIncrementShuffle(int increment) {
             Increment = increment;
         }
+        
+        public int GetIncrement() {
+            return Increment;
+        }
 
         public IEnumerable<T> Shuffle<T>(IEnumerable<T> deck) {
             var array = deck.ToArray();
@@ -63,6 +67,10 @@ namespace AdventOfCode {
         int Cut;
         public CutShuffle(int cut) {
             Cut = cut;
+        }
+
+        public int GetCut() {
+            return Cut;
         }
 
         public IEnumerable<T> Shuffle<T>(IEnumerable<T> deck) {
