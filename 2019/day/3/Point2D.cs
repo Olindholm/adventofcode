@@ -22,6 +22,10 @@ namespace AdventOfCode {
             return this.Y;
         }
 
+        public double GetDistance(Point2D p) {
+            return MathExtensions.Pythagoras(GetDeltaX(p), GetDeltaY(p));
+        }
+
         public int GetManhattanDistance(Point2D p) {
             return Math.Abs(GetDeltaX(p)) + Math.Abs(GetDeltaY(p));
         }
