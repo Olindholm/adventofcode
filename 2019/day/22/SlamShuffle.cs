@@ -16,14 +16,21 @@ namespace AdventOfCode {
             long deckSize = 119315717514047;
             long index = 2020;
 
-            for (int i = 0; i < 100; i++) {
+            var indicies = new HashSet<long>();
+
+            for (long i = 0; i < 101741582076661L; i++) {
                 var prevIndex = index;
                 foreach (var shuffleTask in shuffleTasks.Reverse()) {
                     index = shuffleTask.UnshuffleIndex(index, deckSize);
                 }
 
+                if (!indicies.Add(index)) {
+                    Console.WriteLine(i);
+                    break;
+                }
+
                 var diff = index - prevIndex;
-                Console.WriteLine("{0,16} {1,16} {2,16} {3,16}", prevIndex, index, diff, MathExtensions.PositiveModulo(diff, deckSize));
+                //Console.WriteLine("{0,16} {1,16} {2,16} {3,16}", prevIndex, index, diff, MathExtensions.PositiveModulo(diff, deckSize));
             }
 
 
