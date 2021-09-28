@@ -10,8 +10,9 @@ namespace AdventOfCode {
             // Load program
             long[] program = IntcodeComputer.ParseProgram(puzzleInput);
 
-            // Part one
-            Console.WriteLine("--- Part one ---");
+            // Part one & two
+            // First output is answer to part one
+            // Last output is answer to part two
             RunNetwork(program);
         }
 
@@ -41,6 +42,10 @@ namespace AdventOfCode {
             var packageQueues = new Queue<long>[numOfComputers];
             for (int i = 0; i < numOfComputers; i++) packageQueues[i] = new Queue<long>();
 
+            // Init NAT
+            Point2D nat = null;
+            var natMessages = new HashSet<Point2D>(); // Messages SENT from the NAT
+
             // Start all computers
             for (int i = 0; i < numOfComputers; i++) {
                 computers[i].AddInput(i);
@@ -62,6 +67,7 @@ namespace AdventOfCode {
 
                         if (address == 255) {
                             Console.WriteLine("Package to {0,2} [X={1}, Y={2}]", address, X, Y);
+                            nat = new Point2D((int) X, (int) Y);
                         }
                         else {
                             computers[address].AddInput(X);
@@ -70,7 +76,17 @@ namespace AdventOfCode {
                     }
                 }
 
-                if (idle) break;
+                if (idle) {
+                    long address = 0;
+                    long X = nat.GetX();
+                    long Y = nat.GetY();
+
+                    Console.WriteLine("Package from NAT to {0,2} [X={1}, Y={2}]", address, X, Y);
+                    computers[address].AddInput(nat.GetX());
+                    computers[address].AddInput(nat.GetY());
+
+                    if (!natMessages.Add(nat)) break;
+                }
             }
         }
     }
