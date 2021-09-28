@@ -53,7 +53,7 @@ namespace AdventOfCode {
             return new Point2D(GetX(), GetY()+dy);
         }
 
-        public Point2D Shift(int direction, int delta) {
+        public Point2D Shift(int direction, int delta = 1) {
             direction = MathExtensions.PositiveModulo(direction, 4);
             delta = (direction < 2) ? delta : -delta;
 

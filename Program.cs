@@ -68,6 +68,7 @@ namespace csharp {
             AddPuzzle(new DonutMaze());
             AddPuzzle(new SpringdroidAdventure());
             AddPuzzle(new CategorySix());
+            AddPuzzle(new PlanetOfDiscord());
         }
 
         void AddPuzzle(AdventOfCodePuzzle puzzle) {
