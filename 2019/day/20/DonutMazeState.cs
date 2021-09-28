@@ -41,15 +41,6 @@ namespace AdventOfCode {
             
             return true;
         }
-
-        public bool EqualsIgnoreLevel(DonutMazeState that) {
-            if (that == this) return true; // If same reference => same object
-            if (that == null) return false;
-
-            if (!that.GetPosition().Equals(this.GetPosition())) return false;
-            
-            return true;
-        }
         
         // override object.GetHashCode
         public override int GetHashCode() {

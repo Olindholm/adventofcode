@@ -44,7 +44,6 @@ namespace csharp {
 
             // Run puzzle(s)
             foreach (var key in puzzlesToSolve) puzzles[key].Solve();
-            
         }
 
         private void InitPuzzles() {

@@ -12,92 +12,73 @@ namespace AdventOfCode {
 
         override protected void SolvePuzzle(string puzzleInput) {
             var maze = ParseMaze(puzzleInput);
-
-            var initialState = new DonutMazeState(maze.Start);
             int steps;
 
             // Part one
-            steps = EscapeMazeInFewestSteps(initialState, maze.Final, false, maze.Portals, maze.PathCosts);
+            steps = EscapeMazeInFewestSteps(maze.Start, maze.Final, false, maze.Portals, maze.PathCosts);
             Console.WriteLine("The number of steps required to reach the end of the maze are: {0}", steps);
 
             // Part two
-            steps = EscapeMazeInFewestSteps(initialState, maze.Final, true, maze.Portals, maze.PathCosts);
+            steps = EscapeMazeInFewestSteps(maze.Start, maze.Final, true, maze.Portals, maze.PathCosts);
             Console.WriteLine("The number of steps required to reach the end of the maze are: {0}", steps);
         }
 
         int EscapeMazeInFewestSteps(
-            DonutMazeState thisState,
-            Point2D goal,
+            Point2D startPos,
+            Point2D finalPos,
             bool recursiveSpaces,
             Dictionary<Point2D, DonutMazePortal> portals,
             Dictionary<Point2D, Dictionary<Point2D, int>> pathCosts
         ) {
-            return EscapeMazeInFewestSteps(thisState, goal, recursiveSpaces, portals, pathCosts, new Dictionary<DonutMazeState, int>(), Enumerable.Empty<DonutMazeState>());
-        }
-
-        int EscapeMazeInFewestSteps(
-            DonutMazeState thisState,
-            Point2D goal,
-            bool recursiveSpaces,
-            Dictionary<Point2D, DonutMazePortal> portals,
-            Dictionary<Point2D, Dictionary<Point2D, int>> pathCosts,
-            Dictionary<DonutMazeState, int> stateCosts,
-            IEnumerable<DonutMazeState> prevStates
-        ) {
-            // Debug state
-            //var usedPortals = prevStates.Reverse().Skip(1).Select(state => portals[state.GetPosition()].GetName() + "(" + state.GetLevel() + ")");
-            //Console.WriteLine(String.Join(" => ", usedPortals));
-
-            var thisPos = thisState.GetPosition();
-
-            // If we're on goal! we found it!
-            if (thisPos.Equals(goal))
-                return thisState.GetLevel() == 0 ? 0 : Int32.MaxValue;
+            // Explorer and costs
+            var explorer = new UniqueQueue<DonutMazeState>();
+            var costs = new Dictionary<DonutMazeState, int>();
             
-            // Check if this state already has a cost
-            // Then it has already been calculcated
-            // and need not be recalculated.
-            // Just return cached value
-            if (stateCosts.ContainsKey(thisState)) {
-                //Console.Write(" (Already Cached, skip!)");
-                return stateCosts[thisState];
+            // Define goal
+            var goalState = new DonutMazeState(finalPos);
+            costs[goalState] = Int32.MaxValue;
+
+            // Enqueue initial
+            var initialState = new DonutMazeState(startPos);
+            EnqueueIfCheaper(explorer, costs, initialState, 0);
+
+            // Breadth-first
+            while (explorer.Count > 0) {
+                var thisState = explorer.Dequeue();
+                var thisPos = thisState.GetPosition();
+                var thisCost = costs[thisState];
+
+                // If this branch, has a larger cost than
+                // the goal's current cost (it's less ineffective)
+                // Kill the branch
+                var goalCost = costs[goalState];
+                if (thisCost >= goalCost) continue;
+
+                if (thisState.GetLevel() < 0) continue;
+                
+                // Otherwise... 
+                var pathCost = pathCosts[thisPos];
+                var nextPositions = pathCost.Keys;
+            
+                foreach (var nextPos in nextPositions) {
+                    var nextCost = thisCost + pathCost[nextPos];
+                    var nextState = new DonutMazeState(nextPos, thisState.GetLevel());
+
+                    // Check is portal is available, then use
+                    // This is true for all paths except the final
+                    // (i.e. goal position)
+                    if (portals.ContainsKey(nextPos)) {
+                        //Console.WriteLine("Take Portal: {0}", portals[nextPos].GetName());
+                        nextState = portals[nextPos].Use(nextState, recursiveSpaces);
+                        nextCost += 1;
+                    }
+
+                    // Enqueue if cheaper than previous
+                    EnqueueIfCheaper(explorer, costs, nextState, nextCost);
+                }
             }
 
-            // Check for recursive loops
-            int leastCost = Int32.MaxValue;
-            if (prevStates.Any(prevState => {
-                if (!prevState.EqualsIgnoreLevel(thisState)) return false;
-                if (Math.Abs(thisState.GetLevel()) >= Math.Abs(prevState.GetLevel())) {
-                    if (thisState.GetLevel() % 2 == prevState.GetLevel() % 2) return true;
-                }
-
-                return false;
-            })) return leastCost;
-
-            var pathCost = pathCosts[thisPos];
-            var nextPositions = pathCost.Keys;
-
-            foreach (var nextPos in nextPositions) {
-                var nextCost = pathCost[nextPos];
-                var nextState = new DonutMazeState(nextPos, thisState.GetLevel());
-
-                // Check is portal is available, then use
-                if (portals.ContainsKey(nextPos)) { // Actually... this is always true
-                    //Console.WriteLine("Take Portal: {0}", portals[nextPos].GetName());
-                    nextState = portals[nextPos].Use(nextState, recursiveSpaces);
-                    nextCost += 1;
-                }
-
-                var nextStateCost = EscapeMazeInFewestSteps(nextState, goal, recursiveSpaces, portals, pathCosts, stateCosts, prevStates.Prepend(thisState));
-
-                // Update least cost
-                leastCost = Math.Min(leastCost, MathExtensions.SafeOverflowAdd(nextCost, nextStateCost));
-            }
-
-            // Insert this state's cost into the state cost cache
-            stateCosts.Add(thisState, leastCost);
-
-            return leastCost;
+            return costs[goalState];
         }
 
         (
@@ -219,6 +200,7 @@ namespace AdventOfCode {
             var originPositions = portals.Keys.Append(startPos);
             var destinationPositions = portals.Keys.Append(finalPos);
 
+            pathCosts[finalPos] = new Dictionary<Point2D, int>();
             foreach(var pos in originPositions) {
                 var pathCost = new Dictionary<Point2D, int>();
                 foreach (var pathTuple in FindCostsForPositions(maze, pos, destinationPositions.Exclude(pos))) pathCost[pathTuple.Position] = pathTuple.Cost;
@@ -252,11 +234,8 @@ namespace AdventOfCode {
         }
 
         bool IsInner(Point2D center, Point2D p) {
-            var xFrac = 0.75;
-            var yFrac = 0.75;
-
-            var xInside = Math.Abs(p.GetDeltaX(center)) < xFrac * Math.Abs(center.GetX());
-            var yInside = Math.Abs(p.GetDeltaY(center)) < yFrac * Math.Abs(center.GetY());
+            var xInside = Math.Abs(center.GetX()) - Math.Abs(p.GetDeltaX(center)) > 5;
+            var yInside = Math.Abs(center.GetY()) - Math.Abs(p.GetDeltaY(center)) > 5;
 
             return (xInside && yInside);
         }
