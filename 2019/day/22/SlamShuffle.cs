@@ -11,37 +11,50 @@ namespace AdventOfCode {
 
         override protected void SolvePuzzle(string puzzleInput) {
             var shuffleTasks = puzzleInput.SplitToLines().Select(strLine => ShuffleTechniqueFactory.ParseShuffleTechnique(strLine));
+            var numOfShuffleTasks = shuffleTasks.Count();
 
-            var deckSize = 10007;
-            var index = 2019;
+            long deckSize = 119315717514047;
+            long index = 2020;
 
-            foreach (var shuffleTask in shuffleTasks) {
-                if (shuffleTask is DealIntoNewStackShuffle) {
-                    index = deckSize-1 - index;
+            for (int i = 0; i < 100; i++) {
+                var prevIndex = index;
+                foreach (var shuffleTask in shuffleTasks.Reverse()) {
+                    index = shuffleTask.UnshuffleIndex(index, deckSize);
                 }
-                else if (shuffleTask is CutShuffle) {
-                    int cut = ((CutShuffle) shuffleTask).GetCut();
-                    index = MathExtensions.PositiveModulo(index - cut, deckSize);
-                }
-                else if (shuffleTask is DealWithIncrementShuffle) {
-                    int increment = ((DealWithIncrementShuffle) shuffleTask).GetIncrement();
-                    index = (increment * index) % deckSize;
-                }
+
+                var diff = index - prevIndex;
+                Console.WriteLine("{0,16} {1,16} {2,16} {3,16}", prevIndex, index, diff, MathExtensions.PositiveModulo(diff, deckSize));
             }
 
-            Console.WriteLine(index);
-        }
 
-        int DealWithIncrement(int a) {
-            return 0;
-        }
 
-        int Cut(int a) {
-            return 0;
-        }
+            
+            /*
+            var shuffleIndicies = new List<long>();
+            shuffleIndicies.Add(index);
 
-        int DealIntoNewStack(int a) {
-            return 0;
+            foreach (var shuffleTask in shuffleTasks) {
+                index = shuffleTask.ShuffleIndex(index, deckSize);
+                shuffleIndicies.Add(index);
+            }
+            
+            var unshuffleIndicies = new List<long>();
+            unshuffleIndicies.Insert(0, index);
+            
+            foreach (var shuffleTask in shuffleTasks.Reverse()) {
+                index = shuffleTask.UnshuffleIndex(index, deckSize);
+                unshuffleIndicies.Insert(0, index);
+            }
+
+            var str = String.Join(
+                "\n",
+                Enumerable.Range(0, shuffleIndicies.Count)
+                .Select(i => String.Format("{0,3}: {1,16} - {2,16}", i, shuffleIndicies[i], unshuffleIndicies[i]))
+                .Intertwine(shuffleTasks.Select(shuffleTask => "\t\t\t" + shuffleTask.ToString()))
+            );
+
+            Console.WriteLine(str);
+            */
         }
     }
 }

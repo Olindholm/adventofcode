@@ -15,5 +15,19 @@ namespace System {
             // This may be written more efficiently with 2 for loops and yields ?
             return enumerable.Select((value, i) => (i == index) ? newValue : value);
         }
+
+        public static IEnumerable<E> Intertwine<E>(this IEnumerable<E> enumerableA, IEnumerable<E> enumerableB) {
+            var arrayA = enumerableA.ToArray();
+            var arrayB = enumerableB.ToArray();
+            var commonLength = Math.Min(arrayA.Length, arrayB.Length);
+
+            for (int i = 0; i < commonLength; i++) {
+                yield return arrayA[i];
+                yield return arrayB[i];
+            }
+
+            for (int i = commonLength; i < arrayA.Length; i++) yield return arrayA[i];
+            for (int i = commonLength; i < arrayB.Length; i++) yield return arrayB[i];
+        }
     }
 }
