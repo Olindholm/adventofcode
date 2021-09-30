@@ -8,9 +8,16 @@ using static AdventOfCode.OxygenSystem;
 namespace AdventOfCode {
     
     abstract class ShuffleTechnique {
-        public abstract IEnumerable<T> Shuffle<T>(IEnumerable<T> deck); 
-        public abstract long ShuffleIndex(long index, long deckSize); 
-        public abstract long UnshuffleIndex(long index, long deckSize); 
+        public abstract IEnumerable<T> Shuffle<T>(IEnumerable<T> deck);
+
+        public abstract long GetShuffleParameterA(long deckSize);
+        public abstract long GetShuffleParameterB(long deckSize);
+        public long ShuffleIndex(long index, long deckSize) {
+            var a = GetShuffleParameterA(deckSize);
+            var b = GetShuffleParameterB(deckSize);
+            return MathExtensions.PositiveModulo( a * index + b, deckSize );
+        }
+        public abstract long UnshuffleIndex(long index, long deckSize); // No longer needed
 
         override public string ToString() {
             return GetType().Name;
@@ -69,8 +76,12 @@ namespace AdventOfCode {
             return array2;
         }
 
-        override public long ShuffleIndex(long index, long deckSize) {
-            return (Increment * index) % deckSize;
+        override public long GetShuffleParameterA(long deckSize) {
+            return Increment;
+        }
+
+        override public long GetShuffleParameterB(long deckSize) {
+            return 0;
         }
         override public long UnshuffleIndex(long index, long deckSize) {
             int i = -1;
@@ -110,9 +121,14 @@ namespace AdventOfCode {
             return first.Concat(second);
         }
         
-        override public long ShuffleIndex(long index, long deckSize) {
-            return MathExtensions.PositiveModulo(index - Cut, deckSize);
+        override public long GetShuffleParameterA(long deckSize) {
+            return 1;
         }
+
+        override public long GetShuffleParameterB(long deckSize) {
+            return -Cut;
+        }
+
         override public long UnshuffleIndex(long index, long deckSize) {
             return MathExtensions.PositiveModulo(index + Cut, deckSize);
         }
@@ -127,9 +143,12 @@ namespace AdventOfCode {
         override public IEnumerable<T> Shuffle<T>(IEnumerable<T> deck) {
             return deck.Reverse();
         }
-        
-        override public long ShuffleIndex(long index, long deckSize) {
-            return deckSize-1 - index;
+        override public long GetShuffleParameterA(long deckSize) {
+            return -1;
+        }
+
+        override public long GetShuffleParameterB(long deckSize) {
+            return deckSize-1;
         }
         override public long UnshuffleIndex(long index, long deckSize) {
             return ShuffleIndex(index, deckSize);
