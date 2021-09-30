@@ -1,21 +1,24 @@
 using System;
 using System.Linq;
+using System.Numerics;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
-
-using static AdventOfCode.OxygenSystem;
 
 namespace AdventOfCode {
     
     abstract class ShuffleTechnique {
         public abstract IEnumerable<T> Shuffle<T>(IEnumerable<T> deck);
 
+        public BoundedLinearFunction GetIndexFunction(long deckSize) {
+            var a = GetShuffleParameterA(deckSize);
+            var b = GetShuffleParameterB(deckSize);
+            return new BoundedLinearFunction(a, b, deckSize);
+        }
+
         public abstract long GetShuffleParameterA(long deckSize);
         public abstract long GetShuffleParameterB(long deckSize);
         public long ShuffleIndex(long index, long deckSize) {
-            var a = GetShuffleParameterA(deckSize);
-            var b = GetShuffleParameterB(deckSize);
-            return MathExtensions.PositiveModulo( a * index + b, deckSize );
+            return (long) GetIndexFunction(deckSize).Evaluate(new BigInteger(index));
         }
         public abstract long UnshuffleIndex(long index, long deckSize); // No longer needed
 
