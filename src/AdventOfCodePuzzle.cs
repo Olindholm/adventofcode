@@ -1,6 +1,5 @@
 ﻿using System;
-using System.Linq;
-using System.Collections.Generic;
+using System.Reflection;
 
 namespace AdventOfCode {
     abstract class AdventOfCodePuzzle {
@@ -23,14 +22,14 @@ namespace AdventOfCode {
         }
 
         private string GetPuzzleInput() {
-            string puzzleInputFile = this.GetYear() + "/day/" + this.GetDay() + "/" + "PuzzleInput.txt";
+            string puzzleInputFile = "src/" + this.GetYear() + "/day/" + this.GetDay() + "/" + "PuzzleInput.txt";
             return ProcessPuzzleInput(System.IO.File.ReadAllText(puzzleInputFile));
         }
-        
+
         protected virtual string ProcessPuzzleInput(string puzzleInput) {
             return puzzleInput.Trim();
         }
-        
+
         public void Solve() {
             Solve(GetPuzzleInput());
         }
