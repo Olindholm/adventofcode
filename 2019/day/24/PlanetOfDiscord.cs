@@ -37,12 +37,9 @@ namespace AdventOfCode {
             // Part two
             {
                 PlutonianBugState state = PlutonianBugState.Parse(puzzleInput);
+                for (int i = 0; i < 200; i++) state = state.NextState();
 
-                for (int i = 0; i < 200; i++) {
-                    state = state.Next();
-                }
-
-                Console.WriteLine("Hello!");
+                Console.WriteLine("After 200 minutes there the number of bugs are: {0}", state.GetTotalBugCount());
             }
         }
     }
