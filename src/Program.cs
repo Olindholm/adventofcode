@@ -6,7 +6,7 @@ using AdventOfCode;
 
 namespace csharp {
     class Program {
-        
+
         static void Main(string[] args) {
             new Program(args);
         }
@@ -70,6 +70,7 @@ namespace csharp {
             AddPuzzle(new SlamShuffle());
             AddPuzzle(new CategorySix());
             AddPuzzle(new PlanetOfDiscord());
+            AddPuzzle(new Cryostasis());
         }
 
         void AddPuzzle(AdventOfCodePuzzle puzzle) {

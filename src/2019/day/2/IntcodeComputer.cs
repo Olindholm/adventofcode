@@ -71,7 +71,7 @@ namespace AdventOfCode {
         public void SetRelativeBase(int relativeBase) {
             this.RelativeBase = relativeBase;
         }
-        
+
         public void IncrementRelativeBase(int increment) {
             SetRelativeBase(GetRelativeBase() + increment);
         }
@@ -80,10 +80,15 @@ namespace AdventOfCode {
             this.instructions[instruction.GetOpcode()] = instruction;
         }
 
+        public void SendCommand(string cmd) {
+            AddInputs(cmd.Select(c => (long) c));
+            AddInput(10); // Line break
+        }
+
         public void AddInputs(IEnumerable<long> inputs) {
             if (inputs != null) foreach (long input in inputs) AddInput(input);
         }
-        
+
         public void AddInput(long input) {
             Inputs.Enqueue(input);
         }
@@ -101,7 +106,7 @@ namespace AdventOfCode {
             // if computer is still running/halted
             return Int64.MinValue;
         }
-        
+
         public void AddOutput(long output) {
             Outputs.Enqueue(output);
         }
@@ -113,7 +118,11 @@ namespace AdventOfCode {
         public long GetOutput() {
             return Outputs.Dequeue();
         }
-        
+
+        public IEnumerable<long> GetAllOutput() {
+            while (HasMoreOutput()) yield return GetOutput();
+        }
+
         public void Halt() {
             Halt(0);
         }
@@ -188,7 +197,7 @@ namespace AdventOfCode {
 
             return digits;
         }
-        
+
         public static long[] ParseProgram(string input) {
             return input.Split(",").Select(i => Int64.Parse(i)).ToArray();
         }
