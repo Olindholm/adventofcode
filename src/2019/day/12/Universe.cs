@@ -88,7 +88,7 @@ namespace AdventOfCode {
             return 0;
             #pragma warning restore CS0162
         }
-        
+
         override public string ToString() {
             string str = String.Format("{0}({1}): [\n", this.GetType().Name, GetTimestep());
             foreach (var body in GetCelestialBodies()) str = str + String.Format("    - {0}\n", body);

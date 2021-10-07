@@ -121,7 +121,7 @@ namespace AdventOfCode {
                     leastCost = Math.Min(leastCost, nextCost + nextStateCost);
                 }
             }
-            
+
             // Insert this state's cost into the state cost cache
             stateCosts.Add(thisState, leastCost);
 
@@ -197,7 +197,7 @@ namespace AdventOfCode {
             return false;
             #pragma warning restore CS0162
         }
-        
+
         bool IsKey(char c) {
             return (c >= 'a' && c <= 'z');
         }
@@ -215,16 +215,16 @@ namespace AdventOfCode {
             return MapToString(pixels, "░", flipY);
         }
 
-        
+
         public static string MapToString<E>(IEnumerable<KeyValuePair<Point2D, E>> pixels, E defaultValue, bool flipY = false) {
             return MapToString(pixels, defaultValue.ToString(), flipY);
         }
-        
+
         public static string MapToString<E>(IEnumerable<KeyValuePair<Point2D, E>> pixels, string defaultValue, bool flipY = false) {
             if (pixels.Count() == 0) return "";
 
             int ySign = flipY ? -1 : 1;
-            
+
             var xs = pixels.Select(pixel => pixel.Key.GetX());
             var ys = pixels.Select(pixel => pixel.Key.GetY());
 

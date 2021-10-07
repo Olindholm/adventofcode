@@ -21,7 +21,7 @@ namespace AdventOfCode {
         public int GetOpcode() {
             return this.Intcode;
         }
-        
+
         public int GetNumberOfParameters() {
             return this.NumberOfParameters;
         }
@@ -49,7 +49,7 @@ namespace AdventOfCode {
 
             return value;
         }
-        
+
         public static void SetValue(int parameterIndex, IntcodeComputer computer, long[] parameters, int[] parameterModes, long value) {
             int parameterMode = parameterModes[parameterIndex];
 

@@ -36,7 +36,7 @@ namespace AdventOfCode {
         }
 
         public void PaintSpaceShip(long[] program, Dictionary<Point2D, int> spaceshipPanels) {
-            
+
             // Init computer
             IntcodeComputer computer = new IntcodeComputer();
             computer.AddInstruction(new IntcodeAddition());
@@ -59,7 +59,7 @@ namespace AdventOfCode {
             // Paint the space ship
             while (true) {
                 Point2D panelLocation = robot.GetLocation();
-                
+
                 // Retrieve color at robot's location, default to 0 (black)
                 int panelColor = 0;
                 spaceshipPanels.TryGetValue(panelLocation, out panelColor);
@@ -82,7 +82,7 @@ namespace AdventOfCode {
 
                 if (computer.IsFinished()) break;
             }
-            
+
         }
     }
 }

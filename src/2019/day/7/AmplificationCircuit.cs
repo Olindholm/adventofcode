@@ -48,10 +48,10 @@ namespace AdventOfCode {
 
                     computer.LoadProgram(program);
                     computer.Run(new long[] {phase, output});
-                    
+
                     output = computer.GetOutput();
                 }
-                
+
                 return output;
             }).Max();
 
@@ -60,7 +60,7 @@ namespace AdventOfCode {
             // Part Two
             // Calculate phase permutations/combinations
 
-            
+
             maxThrusterSignal = phaseSequences.Select(phaseSequence => {
 
                 // Load program once
@@ -84,7 +84,7 @@ namespace AdventOfCode {
                     if (n == N && computer.IsFinished()) break;
                     n = n % N;
                 }
-                
+
                 return output;
             }).Max();
 
@@ -98,7 +98,7 @@ namespace AdventOfCode {
             else foreach (int item in collection) {
                 List<int> subcollection = new List<int>(collection);
                 subcollection.Remove(item);
-                
+
                 List<List<int>> subcombinations = generateCombinations(subcollection);
                 foreach (List<int> subcombination in subcombinations) {
                     subcombination.Add(item);

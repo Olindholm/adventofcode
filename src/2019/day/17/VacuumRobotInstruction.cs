@@ -46,10 +46,10 @@ namespace AdventOfCode {
             VacuumRobotInstruction d = (VacuumRobotInstruction) obj;
             if (d.GetDirection() != this.GetDirection()) return false;
             if (d.GetSteps() != this.GetSteps()) return false;
-            
+
             return true;
         }
-        
+
         override public int GetHashCode() {
             return (this.GetDirection() << 2) ^ this.GetSteps();
         }

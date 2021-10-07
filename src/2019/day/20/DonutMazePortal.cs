@@ -35,7 +35,7 @@ namespace AdventOfCode {
         public DonutMazeState Use(DonutMazeState state, bool recursiveSpaces = false) {
             if (!state.GetPosition().Equals(GetPortalPosition()))
                 throw new Exception("Cannot use portal unless on it's position!");
-            
+
             return new DonutMazeState(GetDestinationPosition(), state.GetLevel() + GetLevelIncrement(recursiveSpaces));
         }
 

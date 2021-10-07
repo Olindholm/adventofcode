@@ -9,7 +9,7 @@ namespace AdventOfCode {
         override protected void SolvePuzzle(string puzzleInput) {
             // Load program
             long[] program = IntcodeComputer.ParseProgram(puzzleInput);
-            
+
             // Init computer
             IntcodeComputer computer = new IntcodeComputer();
             computer.AddInstruction(new IntcodeAddition());

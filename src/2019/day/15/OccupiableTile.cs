@@ -17,7 +17,7 @@ namespace AdventOfCode {
         private bool Occupied;
 
         public OccupiableTile(char symbol, char occupiedSymbol) : this(symbol, occupiedSymbol, false) {}
-        
+
         public OccupiableTile(char symbol, char occupiedSymbol, bool occupied) : base(symbol) {
             this.OccupiedSymbol = occupiedSymbol;
             this.Occupied = occupied;

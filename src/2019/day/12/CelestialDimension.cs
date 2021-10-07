@@ -41,7 +41,7 @@ namespace AdventOfCode {
         public void ApplyVelocity() {
             AddPosition(GetVelocity());
         }
-        
+
         public int GetPotentialEnergy() {
             return Math.Abs(GetPosition());
         }
@@ -49,7 +49,7 @@ namespace AdventOfCode {
         public int GetKineticEnergy() {
             return Math.Abs(GetVelocity());
         }
-        
+
         public virtual CelestialDimension Copy() {
             return new CelestialDimension(GetPosition(), GetVelocity());
         }
@@ -66,13 +66,13 @@ namespace AdventOfCode {
             CelestialDimension d = (CelestialDimension) obj;
             if (d.GetPosition() != this.GetPosition()) return false;
             if (d.GetVelocity() != this.GetVelocity()) return false;
-            
+
             return true;
         }
 
         override public int GetHashCode() {
             throw new Exception("Mutable celestial dimensions don't support hash codes!");
-            
+
             // Just return something
             // This code will never be reached.
             // Disable warning for Unreachable code (CS0162)
@@ -94,11 +94,11 @@ namespace AdventOfCode {
         override public void SetPosition(int position) {
             throw new Exception("Immutable objects cannot be modified!");
         }
-        
+
         override public void SetVelocity(int velocity) {
             throw new Exception("Immutable objects cannot be modified!");
         }
-        
+
         override public CelestialDimension Copy() {
             return this; // This is immutable, no need to make a copy.
         }

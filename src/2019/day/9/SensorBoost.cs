@@ -27,7 +27,7 @@ namespace AdventOfCode {
             // Run BOOST in test mode
             computer.LoadProgram(program);
             computer.Run(1);
-            
+
             keycode = computer.GetOutput();
             Console.WriteLine("The BOOST keycode produced in test mode is: {0}", keycode);
 
@@ -35,7 +35,7 @@ namespace AdventOfCode {
             // Run BOOST in sensor boost mode
             computer.LoadProgram(program);
             computer.Run(2);
-            
+
             keycode = computer.GetOutput();
             Console.WriteLine("The BOOST keycode produced in sensor BOOST mode is: {0}", keycode);
         }

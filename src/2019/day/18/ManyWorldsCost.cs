@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace AdventOfCode {
     class ManyWorldsCost : IComparable<ManyWorldsCost> {
-        
+
         int Cost;
         HashSet<char> RequiredKeys = new HashSet<char>();
 

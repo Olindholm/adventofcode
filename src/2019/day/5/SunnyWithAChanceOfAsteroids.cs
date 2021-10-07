@@ -22,7 +22,7 @@ namespace AdventOfCode {
             // Run program
             computer.LoadProgram(program);
             computer.Run(1);
-            
+
             // Extract (final) diagnostic code
             while (computer.HasMoreOutput()) diagnosticCode = computer.GetOutput();
             Console.WriteLine("The final diagnostic code is: {0}", diagnosticCode);
@@ -37,7 +37,7 @@ namespace AdventOfCode {
             // Run program
             computer.LoadProgram(program);
             computer.Run(5);
-            
+
             // Extract (final) diagnostic code
             while (computer.HasMoreOutput()) diagnosticCode = computer.GetOutput();
             Console.WriteLine("The final diagnostic code is: {0}", diagnosticCode);

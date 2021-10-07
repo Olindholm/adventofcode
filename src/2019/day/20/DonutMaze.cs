@@ -33,7 +33,7 @@ namespace AdventOfCode {
             // Explorer and costs
             var explorer = new UniqueQueue<DonutMazeState>();
             var costs = new Dictionary<DonutMazeState, int>();
-            
+
             // Define goal
             var goalState = new DonutMazeState(finalPos);
             costs[goalState] = Int32.MaxValue;
@@ -55,11 +55,11 @@ namespace AdventOfCode {
                 if (thisCost >= goalCost) continue;
 
                 if (thisState.GetLevel() < 0) continue;
-                
-                // Otherwise... 
+
+                // Otherwise...
                 var pathCost = pathCosts[thisPos];
                 var nextPositions = pathCost.Keys;
-            
+
                 foreach (var nextPos in nextPositions) {
                     var nextCost = thisCost + pathCost[nextPos];
                     var nextState = new DonutMazeState(nextPos, thisState.GetLevel());
@@ -142,7 +142,7 @@ namespace AdventOfCode {
                                 // Finally remove A B (they are handled)
                                 portalPositions.Remove(portalPosA);
                                 portalPositions.Remove(portalPosB);
-                                
+
                                 // Now once the portal(s)
                                 goto continueOuterLoop;
                             }

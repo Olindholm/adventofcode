@@ -32,7 +32,7 @@ namespace AdventOfCode {
         public void AddDimension(int dimension, int position, int velocity) {
             this.AddDimension(dimension, new CelestialDimension(position, velocity));
         }
-        
+
         public virtual void AddDimension(int dimension, CelestialDimension celestialDimension) {
             Dimensions.Add(dimension, celestialDimension);
         }
@@ -55,7 +55,7 @@ namespace AdventOfCode {
 
                 if (body.HasDimension(dimension)) {
                     CelestialDimension celestialDimension = dimensionEntry.Value;
-                    
+
                     int thisPosition = celestialDimension.GetPosition();
                     int bodyPosition = body.GetDimension(dimension).GetPosition();
                     int deltaPosition = bodyPosition - thisPosition;
@@ -72,7 +72,7 @@ namespace AdventOfCode {
         public int GetTotalEnergy() {
             return GetPotentialEnergy() * GetKineticEnergy();
         }
-        
+
         public int GetPotentialEnergy() {
             return Dimensions.Values.Select(celestialDimension => celestialDimension.GetPotentialEnergy()).Sum();
         }
@@ -94,7 +94,7 @@ namespace AdventOfCode {
 
             return celestialBody;
         }
-        
+
         override public bool Equals(Object obj) {
             if (obj == this) return true; // If same reference => same object
             if (obj == null) return false;
@@ -104,7 +104,7 @@ namespace AdventOfCode {
             if (!b.GetName().Equals(this.GetName())) return false;
             if (b.GetNumberOfDimensions() != this.GetNumberOfDimensions()) return false;
             foreach (var dim in b.GetDimensions()) if (!this.HasDimension(dim.Dimension) || !this.GetDimension(dim.Dimension).Equals(dim.CelestialDimension)) return false;
-            
+
             return true;
         }
 
@@ -130,7 +130,7 @@ namespace AdventOfCode {
     class ImmutableCelestialBody : CelestialBody {
 
         public ImmutableCelestialBody(string name) : base(name) {}
-            
+
         private bool Immutable = false;
         public void Preserve() {
             Immutable = true;
@@ -145,7 +145,7 @@ namespace AdventOfCode {
             if (Immutable) throw new Exception("Immutable objects cannot be modified!");
             base.ApplyGravity(body);
         }
-        
+
         override public void ApplyVelocity() {
             if (Immutable) throw new Exception("Immutable objects cannot be modified!");
             base.ApplyVelocity();

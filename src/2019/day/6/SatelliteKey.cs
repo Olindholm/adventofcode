@@ -25,11 +25,11 @@ namespace AdventOfCode {
 
             return true;
         }
-        
+
         override public int GetHashCode() {
             return GetName().GetHashCode();
         }
-        
+
         override public string ToString() {
             return GetName();
         }

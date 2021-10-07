@@ -14,7 +14,7 @@ namespace AdventOfCode {
                 computer.SetInstructionPointer(instructionPointer);
                 return false;
             }
-            
+
             return true;
         }
     }

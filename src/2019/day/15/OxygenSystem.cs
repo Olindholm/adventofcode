@@ -154,7 +154,7 @@ namespace AdventOfCode {
         public static string MapToString(IEnumerable<KeyValuePair<Point2D, MapTile>> pixels, MapTile defaultTile, bool flipY) {
             char defaultSymbol = defaultTile.GetSymbol();
             int ySign = flipY ? -1 : 1;
-            
+
             var xs = pixels.Select(pixel => pixel.Key.GetX());
             var ys = pixels.Select(pixel => pixel.Key.GetY());
 
@@ -220,7 +220,7 @@ namespace AdventOfCode {
                 }
             }
         }
-        
+
         int ConvertToIntcodeInstruction(int moveCmd) {
             int[] array = { 1, 4, 2, 3 };
             return array[moveCmd];

@@ -71,7 +71,7 @@ namespace AdventOfCode {
 
             var oldA = GetA();
             var oldB = GetB();
-            
+
             // Calculate new A
             var newA = ModPow(oldA, n, Bound);
 

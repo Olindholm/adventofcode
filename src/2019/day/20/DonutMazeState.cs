@@ -34,14 +34,14 @@ namespace AdventOfCode {
             if (obj == this) return true; // If same reference => same object
             if (obj == null) return false;
             if (!obj.GetType().IsInstanceOfType(this)) return false;
-            
+
             DonutMazeState that = (DonutMazeState) obj;
             if (that.GetLevel() != this.GetLevel()) return false;
             if (!that.GetPosition().Equals(this.GetPosition())) return false;
-            
+
             return true;
         }
-        
+
         // override object.GetHashCode
         public override int GetHashCode() {
             return GetPosition().GetHashCode() + GetLevel();
@@ -50,6 +50,6 @@ namespace AdventOfCode {
         override public string ToString() {
             return String.Format("State( Pos: {0}, Lvl: {1} )", GetPosition(), GetLevel());
         }
-        
+
     }
 }

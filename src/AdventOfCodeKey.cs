@@ -19,7 +19,7 @@ namespace AdventOfCode {
             return this.Day;
         }
 
-        
+
         override public bool Equals(Object obj) {
             if (obj == this) return true; // If same reference => same object
             if (obj == null) return false;
@@ -28,7 +28,7 @@ namespace AdventOfCode {
             AdventOfCodeKey d = (AdventOfCodeKey) obj;
             if (d.GetYear() != this.GetYear()) return false;
             if (d.GetDay() != this.GetDay()) return false;
-            
+
             return true;
         }
 

@@ -8,11 +8,11 @@ namespace System {
         public static double PositiveModulo(double n, double m) {
             return (n % m + m) % m;
         }
-        
+
         public static int PositiveModulo(int n, int m) {
             return (n % m + m) % m;
         }
-        
+
         public static long PositiveModulo(long n, long m) {
             return (n % m + m) % m;
         }
@@ -111,7 +111,7 @@ namespace System {
                 b = b * b;
                 exponent = exponent >> 1;
             }
-            
+
             return result;
         }
     }

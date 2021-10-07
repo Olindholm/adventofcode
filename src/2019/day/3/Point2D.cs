@@ -17,7 +17,7 @@ namespace AdventOfCode {
         public int GetX() {
             return this.X;
         }
-        
+
         public int GetY() {
             return this.Y;
         }
@@ -36,7 +36,7 @@ namespace AdventOfCode {
         public int GetDeltaX(Point2D p) {
             return p.GetX() - this.GetX();
         }
-        
+
         public int GetDeltaY(Point2D p) {
             return p.GetY() - this.GetY();
         }
@@ -48,7 +48,7 @@ namespace AdventOfCode {
         public Point2D ShiftX(int dx) {
             return new Point2D(GetX()+dx, GetY());
         }
-        
+
         public Point2D ShiftY(int dy) {
             return new Point2D(GetX(), GetY()+dy);
         }

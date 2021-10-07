@@ -52,7 +52,7 @@ namespace AdventOfCode {
                 else if (IsEmpty(c)) {
                     if (adjacentBugs >= 1 && adjacentBugs <= 2) return BugChar();
                 }
-                
+
                 // Otherwise, remain
                 return c;
             });

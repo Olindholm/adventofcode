@@ -52,10 +52,10 @@ namespace AdventOfCode {
             if (obj == this) return true; // If same reference => same object
             if (obj == null) return false;
             if (!obj.GetType().IsInstanceOfType(this)) return false;
-            
+
             BugState that = (BugState) obj;
             if (!that.Layout.Flatten().SequenceEqual(this.Layout.Flatten())) return false;
-            
+
             return true;
         }
 

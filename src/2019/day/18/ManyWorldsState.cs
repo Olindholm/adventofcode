@@ -8,7 +8,7 @@ namespace AdventOfCode {
 
         List<Point2D> RobotPositions = new List<Point2D>();
         HashSet<char> Keys = new HashSet<char>();
-        
+
         public ManyWorldsState(IEnumerable<Point2D> robotPositions) {
             RobotPositions.AddRange(robotPositions);
         }
@@ -32,10 +32,10 @@ namespace AdventOfCode {
             ManyWorldsState that = (ManyWorldsState) obj;
             if (!that.GetRobotPositions().SequenceEqualsIgnoreOrder(this.GetRobotPositions())) return false;
             if (!that.GetKeys().SetEquals(this.GetKeys())) return false;
-            
+
             return true;
         }
-        
+
         override public int GetHashCode() {
             return GetRobotPositions().Select(p => p.GetHashCode()).Sum() + GetKeys().Select(c => c.GetHashCode()).Sum();
         }

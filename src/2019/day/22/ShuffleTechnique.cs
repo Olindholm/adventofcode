@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
 namespace AdventOfCode {
-    
+
     abstract class ShuffleTechnique {
         public abstract IEnumerable<T> Shuffle<T>(IEnumerable<T> deck);
 
@@ -60,7 +60,7 @@ namespace AdventOfCode {
         public DealWithIncrementShuffle(int increment) {
             Increment = increment;
         }
-        
+
         public int GetIncrement() {
             return Increment;
         }
@@ -75,7 +75,7 @@ namespace AdventOfCode {
                 array2[index] = array[i];
                 index = MathExtensions.PositiveModulo(index+Increment, length);
             }
-            
+
             return array2;
         }
 
@@ -123,7 +123,7 @@ namespace AdventOfCode {
 
             return first.Concat(second);
         }
-        
+
         override public long GetShuffleParameterA(long deckSize) {
             return 1;
         }

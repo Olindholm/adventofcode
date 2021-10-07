@@ -24,7 +24,7 @@ namespace AdventOfCode {
             int indexLength = 7;
             int messageIndex = signal.Select((n, i) => (int) Math.Pow(10, indexLength-1-i)*n).Take(indexLength).Sum();
             int messageLength = 10_000*length - messageIndex;
-            
+
             int[] messageSignal = new int[messageLength];
             for (int i = 0; i < messageLength; i++) messageSignal[i] = signal[(messageIndex+i) % length];
 
@@ -62,7 +62,7 @@ namespace AdventOfCode {
 
                 // Start with stage 3
                 FFTStage3(prevSignal, nextSignal, stage23, stage34);
-                
+
                 // Stage 2
                 FFTStage3(prevSignal, nextSignal, stage12, stage23);
 
@@ -79,7 +79,7 @@ namespace AdventOfCode {
                 nextSignal[finalIndex-1-i] = (nextSignal[finalIndex-i] + prevSignal[finalIndex-1-i]) % 10;
             }
         }
-        
+
         private void FFTStage2(int[] prevSignal, int[] nextSignal, int startIndex, int finalIndex) {
             int length = finalIndex - startIndex;
             int helpIndex = 2*finalIndex;
@@ -126,7 +126,7 @@ namespace AdventOfCode {
 
                     if (debug) Console.WriteLine(" = {0}", nextSignal[i]);
                 }
-                
+
                 if (debug) Console.WriteLine("\n");
 
                 // Move forward (for next iteration)

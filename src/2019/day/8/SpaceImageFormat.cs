@@ -10,7 +10,7 @@ namespace AdventOfCode {
         override protected void SolvePuzzle(string puzzleInput) {
             // Load
             string encodedImageData = puzzleInput;
-            
+
             // imageLayers properties
             int width = 25;
             int height = 6;
@@ -84,7 +84,7 @@ namespace AdventOfCode {
 
             int width = image.GetLength(0);
             int height = image.GetLength(1);
-            
+
             for (int y = 0; y < height; y++) {
                 for (int x = 0; x < width; x++) {
                     int color = image[x, y];
@@ -95,11 +95,11 @@ namespace AdventOfCode {
 
             return sb.ToString();
         }
-        
+
         public static string ImageToString(int[,] image) {
             return ImageToString(image, BLACK_AND_WHITE);
         }
-        
+
         public static string ImageToString(IEnumerable<KeyValuePair<Point2D, int>> pixels, string[] colorPallette) {
             return ImageToString(PixelsToImage(pixels), colorPallette);
         }

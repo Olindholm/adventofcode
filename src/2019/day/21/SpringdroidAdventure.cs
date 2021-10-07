@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using static AdventOfCode.OxygenSystem;
 
 namespace AdventOfCode {
-    
+
     class SpringdroidAdventure : AdventOfCodePuzzle {
         public SpringdroidAdventure() : base(2019, 21) {}
 
@@ -29,7 +29,7 @@ namespace AdventOfCode {
 
                 "NOT C T",
                 "AND H T",
-            
+
                 "OR T J",
                 "AND D J",
 

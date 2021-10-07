@@ -18,7 +18,7 @@ namespace AdventOfCode {
                 // Inputs
                 string[] inputs = recipeComponents[0].Split(",");
                 int numberOfInputs = inputs.Length;
-                
+
                 StoichiometryItem[] recipeInputs = new StoichiometryItem[numberOfInputs];
                 for (int i = 0; i < numberOfInputs; i++) recipeInputs[i] = ParseReciptItem(inputs[i]);
 
@@ -52,7 +52,7 @@ namespace AdventOfCode {
             // Clear previous balance
             balance.Clear();
             balance.AddItem("ORE", availableOre);
-            
+
             // Same as before
             // Add one fuel of dept, convert to ore.
             // Continue until ore dept exceeds one trillion.
@@ -85,7 +85,7 @@ namespace AdventOfCode {
                 // This inclues, all compounds with negative balances (excluding ORE)
                 // Because ORE is abundant (free).
                 var missingItems = balance.GetNonAbundantItems().Where(item => item.GetQuantity() < 0);
-                
+
                 // If no missing compunds, all reactions are complete, break
                 if (missingItems.Count() == 0) break;
 
@@ -108,7 +108,7 @@ namespace AdventOfCode {
             string compound = recipeParts[1];
 
             return new StoichiometryItem(compound, quantity);
-            
+
         }
     }
 }

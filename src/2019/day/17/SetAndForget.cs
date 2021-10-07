@@ -14,7 +14,7 @@ namespace AdventOfCode {
             return cs.Where(c => c == GetSymbol()).Select((c, i) => i).First();
         }
     }
-    
+
     class SetAndForget : AdventOfCodePuzzle {
         public SetAndForget() : base(2019, 17) {}
 
@@ -101,7 +101,7 @@ namespace AdventOfCode {
                         if (!(tileMap.ContainsKey(pos) && tileMap[pos] is ScaffoldTile)) break;
                         dist++;
                     }
-                    
+
                     if (dist > 0) {
                         // Add instruction
                         instructions.Add(new VacuumRobotInstruction(dir - robotDir, dist));
@@ -109,7 +109,7 @@ namespace AdventOfCode {
                         // Update robot
                         robotPos = robotPos.Shift(dir, dist);
                         robotDir = dir;
-                        
+
                         // Continue
                         goto continueOuterLoop;
                     }
@@ -123,7 +123,7 @@ namespace AdventOfCode {
                 // Goto marker, to be able to continue outer loop
                 continueOuterLoop:;
             }
-            
+
             // Print instructions
             //foreach (var instruction in instructions) Console.WriteLine(instruction);
 
@@ -139,7 +139,7 @@ namespace AdventOfCode {
             .OrderBy(e => e.Item2)
             .Select(e => e.Item1)
             ;
-            
+
             // Change the program to force robot wake up
             program[0] = 2;
 
@@ -162,7 +162,7 @@ namespace AdventOfCode {
                 computer.AddInputs(movementRoutine);
                 computer.AddInput((long) newline);
             }
-            
+
             // Run
             bool video = false;
             computer.AddInput((long) (video ? 'y' : 'n'));
@@ -240,7 +240,7 @@ namespace AdventOfCode {
                 // Add it to matches..
                 if (match) matchIndicies.Add(i);
             }
-            
+
             return matchIndicies;
         }
 
@@ -262,7 +262,7 @@ namespace AdventOfCode {
                     index = matchIndex + pattern.Count;
                 }
             }
-            
+
             return patternlessSequences;
         }
     }

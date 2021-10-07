@@ -50,7 +50,7 @@ namespace AdventOfCode {
                     int bDistance = laser.GetManhattanDistance(b);
                     return aDistance - bDistance;
                 });
-                
+
                 astroidsByAngle.Add((angle, astroidAngleList));
             }
 
@@ -82,7 +82,7 @@ namespace AdventOfCode {
                 if (astroidsByAngle.Count == 0) break;
                 i = (i+1) % astroidsByAngle.Count;
             }
-            
+
             Astroid astroid200 = astroidsToLaser[200-1];
             int answer = 100*astroid200.GetX() + astroid200.GetY();
 

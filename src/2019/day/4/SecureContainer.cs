@@ -3,10 +3,10 @@ using System.Linq;
 using System.Collections.Generic;
 
 namespace AdventOfCode {
-    
+
     class SecureContainer : AdventOfCodePuzzle {
         public SecureContainer() : base(2019, 4) {}
-        
+
         override protected void SolvePuzzle(string puzzleInput) {
             string[] puzzleParameters = puzzleInput.Split("-");
 
@@ -16,7 +16,7 @@ namespace AdventOfCode {
 
             numberOfPasswords = DetermineNumberOfPasswords(min, max, false);
             Console.WriteLine("The number of different passwords is: {0}", numberOfPasswords);
-            
+
             // Part two
             numberOfPasswords = DetermineNumberOfPasswords(min, max, true);
             Console.WriteLine("The number of different passwords is: {0}", numberOfPasswords);
@@ -46,7 +46,7 @@ namespace AdventOfCode {
             foreach (int n in digitGroups) if (n >= min && n <= max) return true;
             return false;
         }
-        
+
         public static int DetermineNumberOfSubPasswords(int min, int max, int n, int number, bool hardConstrain) {
             if (n < 0) {
                 return (hasAdjacentDigits(number, 2, (hardConstrain) ? 2 : Int32.MaxValue)) ? 1 : 0;
