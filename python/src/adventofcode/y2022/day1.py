@@ -23,6 +23,7 @@ def main() -> None:
     input = get_puzzle_input()
     elf_inputs = "".join(input).split("\n\n")
 
+    # Part One
     elves: List[Elf] = []
     for elf_input in elf_inputs:
         elf_items = elf_input.strip().split("\n")
@@ -34,6 +35,12 @@ def main() -> None:
 
     fattest_elf = max(elves, key=lambda elf: elf.get_calories())
     print(fattest_elf.get_calories())
+
+    # Part Two
+    elves.sort(key=lambda elf: elf.get_calories())
+
+    print(sum([elf.get_calories() for elf in elves[-3:]]))
+
     
 
 
